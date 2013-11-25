@@ -24,7 +24,7 @@
     <property name="build.dir" value="build" />
     <property name="target.dir" value="." />
     <property name="index.template" value="index.tmpl.html" />
-    
+ 
     <!-- Build Targets -->
     
     <target name="build-dev">
@@ -175,9 +175,11 @@
                 <!-- compress -->
                 <exec executable="${lessc}" failonerror="true">
                     <arg line="${css.compress.argument}"/>
-                    <arg line="@{file} > @{file}.min.tmp"/>
+                    <arg line="--verbose"/>
+                    <arg line="@{file} @{file}.min.tmp"/>
                 </exec>
                 <!-- add to file -->
+                <echo>Add to ${css.concat.build}</echo>
                 <concat destfile="${css.concat.build}" append="yes">
                     <fileset file="@{file}.min.tmp"/>
                 </concat>
@@ -353,7 +355,7 @@
     <!-- Deploy to GitHub Pages -->
     <!-- (This is deprecated - we're pushing to gap.alexandriaarchive.org now) -->
     
-    <!-- define git macro -->
+    <!-- define git macro 
     <macrodef name="git">
         <attribute name="command" />
         <attribute name="dir" default="" />
@@ -366,7 +368,7 @@
             </exec>
         </sequential>
     </macrodef>
-    
+    -->
     <target name="deploy-github">
         <!-- Checkout pages branch -->
         <git command="checkout">
@@ -410,19 +412,19 @@
     <!-- Dev Server targets -->
     
     <target name="start-proxy-server">
-        <exec executable="cmd.exe">
-            <arg line="/K start node ${devserver.js} -p ${dev.server.port} -t ${dev.target.proxytarget}" />
+        <exec executable="node">
+            <arg line="${devserver.js} -p ${dev.server.port} -t ${dev.target.proxytarget}" />
         </exec>
     </target>
     
     <target name="start-dev-server">
-        <exec executable="cmd.exe">
-            <arg line="/K start node ${devserver.js} -p ${dev.server.port} --testapi -T ./tests/api" />
+        <exec executable="node">
+            <arg line="${devserver.js} -p ${dev.server.port} --testapi -T ./tests/api" />
         </exec>
     </target>
     
     <target name="launch-in-browser">
-        <exec executable="cmd.exe">
+        <exec executable="${command}">
             <arg line="/K start http://localhost:${dev.server.port}/index.html" />
         </exec>
     </target>

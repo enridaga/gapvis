@@ -5,9 +5,12 @@ define(function() {
 
     // removed in production by uglify
     if (DEBUG) {
-        API_ROOT = '/api';
-        REPORT_URL = '/api/flags/';
-        API_DATA_TYPE = 'json';
+//        API_ROOT = '/api';
+//        REPORT_URL = '/api/flags/';
+//        API_DATA_TYPE = 'json';
+    	API_ROOT = 'tests/api';
+    	REPORT_URL = 'tests/api/flags/';
+    	API_DATA_TYPE = 'json';
     }
     
     // map styles

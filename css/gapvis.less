@@ -1,5 +1,6 @@
 
-@import "bootstrap.less";
+//@import "bootstrap.less";
+@import "dependencies.less";
 
 // ---------------------------------------------------
 // Settings
@@ -30,6 +31,7 @@ html, body {
 }
 h1, h2, h3, h4 {
     color: #555;
+    margin: 0px;
 }
 h1, h4 {
     font-style: italic;
@@ -60,12 +62,20 @@ header {
             color: @linkColor;
             text-decoration: none;
         }
+      /*  
+        font-family: Georgia,"Times New Roman",Times,serif;
+        
+        font-weight: bold;
+        font-size: 24px; */
     }
     
     nav {
         margin: .4em 2em;
         float: left;
         font-weight: bold;
+        a {
+        	font-size: @font-size-small;
+        }
     }
 }
 
@@ -79,6 +89,18 @@ footer {
     a:link, a:visited { color: @discreet-text; }
 }
 
+// ---------------------------------------------------
+// Grid system
+// ---------------------------------------------------
+.row-fluid {
+	.make-row();
+}
+.span7 {
+	.make-lg-column(7);
+}
+.span5 {
+	.make-lg-column(5);
+}
 
 // ---------------------------------------------------
 // Layout styles
@@ -121,7 +143,7 @@ footer {
         position: absolute;
         top: 0;
         bottom: 0;
-        width: 100%;
+        width: 98%; //100%;
         // height set with JS
     }
 }
@@ -264,9 +286,10 @@ footer {
 .freq-bars-view {
     text.title {
         text-anchor: end;
-        font-size: 10px;
+        font-size: 11px;
         cursor: pointer;
     }
+    font-size: 12px;
 }
 
 .frequency-legend-view {
@@ -290,10 +313,13 @@ footer {
     
     a {
         vertical-align: top;
+        font-size: @font-size-smaller;
     }
     
     button {
         font-weight: bold;
+        font-size: @font-size-smaller;
+        font-family: 'Lucida Grande';
     }
 }
 
