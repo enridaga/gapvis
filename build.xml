@@ -459,10 +459,11 @@
     <target name="run-tests">
         <echo>Running tests</echo>
         <property name="suite" value="tests/suites"/>
-        <exec executable="python" failonerror="true">
-            <arg file="${casper.js}" />
-            <arg file="tests/run.js" />
-            <arg file="${suite}" />
+        <!-- exec executable="python" failonerror="true" -->
+        <exec executable="casperjs" failonerror="true">
+            <arg value="test" />
+            <arg value="--includes=tests/commons.js" />
+            <arg file="tests/suites/" />
         </exec>
     </target>
     

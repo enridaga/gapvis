@@ -1,25 +1,22 @@
-// Tests require PhantomJS and Casper.js
-
-var casper = require('casper').create({
-        viewportSize: {width: 800, height: 600}
-    }),
-    t = casper.test,
-    baseUrl = "http://localhost:8080/";
-    
+/**
+ * This file includes common code for testing
+ * It have been developed with CasperJS 1.1
+ **/
+baseUrl = "http://localhost:8080/";
+baseUrl = "http://localhost/~enricox/gapvis/";
 // for easier syntax
-casper.describe = function(msg) {
-    if (this.started) {
-        this.then(function() { t.comment(msg) });
-        // let's clear the page state while we're at it
-        this.thenOpen('about:blank');
-    } else {
-        t.comment(msg);
-    }
-    return this;
-};
+// casper.describe = function(msg) {
+//     if (this.started) {
+//         this.then(function() { test.comment(msg) });
+//         // let's clear the page state while we're at it
+//         this.thenOpen('about:blank');
+//     } else {
+//         t.comment(msg);
+//     }
+//     return this;
+// };
 
 // helpers
-
 casper.waitForSelector = function(selector, msg, negate) {
     msg = msg || 'Selector ' + selector + ' found';
     this.waitFor(function() {
@@ -27,9 +24,9 @@ casper.waitForSelector = function(selector, msg, negate) {
             f = new Function("return " + toBool + "$('" + selector + ":visible').length");
         return casper.evaluate(f)
     }, function() {
-        t.pass(msg);
+		casper.test.pass(msg);
     },  function() {
-        t.fail(msg);
+		casper.test.fail(msg);
     });
     return this;
 };
@@ -57,61 +54,63 @@ casper.closeInfoWindow = function() {
     
 // extend the tester with some custom assertions
 
-t.assertText = function(selector, expected, message) {
+casper.test.assertText = function(selector, expected, message) {
     f = new Function("return $('" + selector + "').first().text().trim()");
-    t.assertEvalEquals(f, expected, message);
+	casper.test.assertEvalEquals(f, expected, message);
 }
 
-t.assertInText = function(selector, expected, message) {
+
+casper.test.assertInText = function(selector, expected, message) {
     f = new Function("return $('" + selector + "').first().text().trim()");
     var text = casper.evaluate(f);
-    t.assert(text.indexOf(expected) >= 0, message);
+	casper.test.assert(text.indexOf(expected) >= 0, message);
 }
 
-t.assertVisible = function(selector, message) {
+casper.test.assertVisible = function(selector, message) {
     f = new Function("return !!$('" + selector + ":visible').length")
-    t.assertEval(f, message);
+	casper.test.assertEval(f, message);
 }
-t.assertNotVisible = function(selector, message) {
+casper.test.assertNotVisible = function(selector, message) {
     f = new Function("return !$('" + selector + ":visible').length")
-    t.assertEval(f, message);
+	casper.test.assertEval(f, message);
 }
-t.assertDoesNotExist = function(selector, message) {
-    f = new Function("return !$('" + selector + "').length")
-    t.assertEval(f, message);
+casper.test.assertDoesNotExist = function(selector, message) {
+    f = new Function("return !$('" + selector + "').length");
+	casper.test.assertEval(f, message);
 }
 
-t.assertRoute = function(expected, message) {
+casper.test.assertRoute = function(expected, message) {
     var getHash = function() {
         return window.location.hash.substr(1);
     };
     if (expected instanceof RegExp) {
-        t.assertMatch(casper.evaluate(getHash), expected, message);
+		casper.test.assertMatch(casper.evaluate(getHash), expected, message);
     } else {
-        t.assertEvalEquals(getHash, expected, message);
+		casper.test.assertEvalEquals(getHash, expected, message);
     }
 };
 
 // Assertions about app-specific UI components
-t.assertInfoWindow = function(expected, message) {
-    t.assertText('div.infowindow h3', expected + ' (Zoom In)', message);
+casper.test.assertInfoWindow = function(expected, message) {
+	casper.test.assertText('div.infowindow h3', expected + ' (Zoom In)', message);
 };
 
-t.assertPermalink = function(expected, message) {
+casper.test.assertPermalink = function(expected, message) {
     var permalink = casper.evaluate(function() { return $('a.permalink:visible').attr('href') });
-    t.assertMatch(permalink, expected, message);
+	casper.test.assertMatch(permalink, expected, message);
 }
 
-t.assertMessage = function(expected, message) {
-    t.assertVisible('#message-view .alert span',
+
+casper.test.assertMessage = function(expected, message) {
+	casper.test.assertVisible('#message-view .alert span',
         "Message is shown");
     var text = casper.evaluate(function() { 
         return $('#message-view .alert span').text().trim(); 
     });
     if (expected instanceof RegExp) {
-        t.assertMatch(text, expected, message);
+		casper.test.assertMatch(text, expected, message);
     } else {
-        t.assertEquals(text, expected, message);
+		casper.test.assertEquals(text, expected, message);
     }
 }
 
@@ -122,10 +121,9 @@ casper.assertAtView = function(viewName, route, view, selector) {
     this.waitForSelector('div.top.' + selector, viewName + " is visible")
         .waitForSelector('div.top.' + selector + ' h2', viewName + " header is visible")
         .then(function() {
-            t.assertEvalEquals(function() { return gv.state.get('view'); }, view,
+			casper.test.assertEvalEquals(function() { return gv.state.get('view'); }, view,
                 "State set correctly for " + viewName);
-            t.assertRoute(route, 
-                "Route correct for " + viewName);
+			casper.test.assertRoute(route, "Route correct for " + viewName);
         });
     return this;
 };
@@ -141,22 +139,3 @@ casper.assertAtBookReadingView = function() {
 casper.assertAtBookPlaceView = function() {
     return this.assertAtView("Place detail view", /^book\/\d+\/place\/\d+/, 'place-view');
 };
-
-// set up and run suites
-var fs = require('fs'),
-    tests = [];
-
-if (casper.cli.args.length) {
-    tests = casper.cli.args.filter(function(path) {
-        return fs.isFile(path) || fs.isDirectory(path);
-    });
-} else {
-    casper.echo('No test path passed, exiting.', 'RED_BAR', 80);
-    casper.exit(1);
-}
-
-t.on('tests.complete', function() {
-    this.renderResults(true);
-});
-
-t.runSuites.apply(casper.test, tests);

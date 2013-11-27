@@ -1,69 +1,71 @@
-var t = casper.test,
-    baseUrl = "http://localhost:8080/",
-    viewUrl = baseUrl + '#book/2/read/-2';
-
-casper.start();
-    
-casper
-    .describe('Reading View page')
-    .thenOpen(viewUrl)
-    .assertAtBookReadingView()
+// About the reading view
+casper.test.begin('Reading View page', 12, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/-2', function(){
+		test.assertHttpStatus(200);
+		casper.assertAtBookReadingView(); // 4 tests
+    }) .assertAtBookReadingView()
     .then(function() {
-        t.assertText("h2.book-title", 'The Works of Cornelius Tacitus: The History',
+        test.assertText("h2.book-title", 'The Works of Cornelius Tacitus: The History',
             "Book title shown");
-        t.assertPermalink(RegExp(baseUrl + '#book/2/read/-2\\?'),
+        test.assertPermalink(RegExp(baseUrl + '#book/2/read/-2\\?'),
             "Permalink is correct");
-        t.assertVisible('div.navigation-view button[data-view-id="reading-view"].active',
+        test.assertVisible('div.navigation-view button[data-view-id="reading-view"].active',
             'Reading View button is active');
-    });
-    
-casper
-    .describe('Reading View page > Next/Prev')
-    .thenOpen(viewUrl)
-    .assertAtBookReadingView()
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
+
+casper.test.begin('Reading View page > Next/Prev', 32, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/-2', function(){
+		test.assertHttpStatus(200);
+		casper.assertAtBookReadingView(); // 4 tests
+    }) .assertAtBookReadingView()
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/-2/, 'Book reading route correct');
-        t.assertInText('.page-view div.text:visible', 'Page Negative Two Text.',
+        test.assertRoute(/^book\/\d+\/read\/-2/, 'Book reading route correct');
+        test.assertInText('.page-view div.text:visible', 'Page Negative Two Text.',
             'Page -2 text is shown');
-        t.assertDoesNotExist('.nextprev .prev.on',
+        test.assertDoesNotExist('.nextprev .prev.on',
             'Previous link is disabled');
-        t.assertExists('.nextprev .next.on',
+        test.assertExists('.nextprev .next.on',
             'Next link is enabled');
     })
     .then(function() {
         this.click('.nextprev .next.on');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/1/, 'Book reading route correct');
-        t.assertInText('.page-view div.text:visible', 'Page One Text.',
+        test.assertRoute(/^book\/\d+\/read\/1/, 'Book reading route correct');
+        test.assertInText('.page-view div.text:visible', 'Page One Text.',
             'Page 1 text is shown');
-        t.assertExists('.nextprev .prev.on',
+        test.assertExists('.nextprev .prev.on',
             'Previous link is enabled');
-        t.assertExists('.nextprev .next.on',
+        test.assertExists('.nextprev .next.on',
             'Next link is enabled');
     })
     .then(function() {
         this.click('.nextprev .next.on');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/2/, 'Book reading route correct');
-        t.assertInText('.page-view div.text:visible', 'Page Two Text.',
+        test.assertRoute(/^book\/\d+\/read\/2/, 'Book reading route correct');
+        test.assertInText('.page-view div.text:visible', 'Page Two Text.',
             'Page 2 text is shown');
-        t.assertExists('.nextprev .prev.on',
+        test.assertExists('.nextprev .prev.on',
             'Previous link is enabled');
-        t.assertExists('.nextprev .next.on',
+        test.assertExists('.nextprev .next.on',
             'Next link is enabled');
     })
     .then(function() {
         this.click('.nextprev .prev.on');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/1/, 'Book reading route correct');
-        t.assertInText('.page-view div.text:visible', 'Page One Text.',
+        test.assertRoute(/^book\/\d+\/read\/1/, 'Book reading route correct');
+        test.assertInText('.page-view div.text:visible', 'Page One Text.',
             'Page 1 text is shown');
-        t.assertExists('.nextprev .prev.on',
+        test.assertExists('.nextprev .prev.on',
             'Previous link is enabled');
-        t.assertExists('.nextprev .next.on',
+        test.assertExists('.nextprev .next.on',
             'Next link is enabled');
     })
     .then(function() {
@@ -71,153 +73,185 @@ casper
     })
     .wait(300)
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/-2/, 'Book reading route correct');
-        t.assertInText('.page-view div.text:visible', 'Page Negative Two Text.',
+        test.assertRoute(/^book\/\d+\/read\/-2/, 'Book reading route correct');
+        test.assertInText('.page-view div.text:visible', 'Page Negative Two Text.',
             'Page -2 text is shown');
-        t.assertDoesNotExist('.nextprev .prev.on',
+        test.assertDoesNotExist('.nextprev .prev.on',
             'Previous link is disabled');
-        t.assertExists('.nextprev .next.on',
+        test.assertExists('.nextprev .next.on',
             'Next link is enabled');
     })
     .thenOpen(baseUrl + '#book/2/read/385', function() {
-        t.assertInText('.page-view div.text:visible', 'Last Page Text.',
+        test.assertInText('.page-view div.text:visible', 'Last Page Text.',
             'Last page text is shown');
-        t.assertDoesNotExist('.nextprev .next.on',
+        test.assertDoesNotExist('.nextprev .next.on',
             'Next link is disabled');
-        t.assertExists('.nextprev .prev.on',
+        test.assertExists('.nextprev .prev.on',
             'Previous link is enabled');
-    });
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
 
-casper
-    .describe('Reading View page > Page Nav Field')
-    .thenOpen(viewUrl)
-    .assertAtBookReadingView()
-    .then(function() {
-        t.assertEvalEquals(function() { return $('input.page-id').val() }, "-2",
+
+casper.test.begin('Reading View page > Page Nav Field', 18, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/-2', function(){
+		test.assertHttpStatus(200);
+		casper.assertAtBookReadingView(); // 4 tests
+    }) .then(function() {
+        test.assertEvalEquals(function() { return $('input.page-id').val() }, "-2",
             "Nav form is correct");
     })
     .then(function() {
         this.click('.nextprev .next.on');
     })
     .then(function() {
-        t.assertEvalEquals(function() { return $('input.page-id').val() }, "1",
+        test.assertEvalEquals(function() { return $('input.page-id').val() }, "1",
             "Nav form updates on next");
     })
     .thenOpen(baseUrl + '#book/2/read/385', function() {
-        t.assertEvalEquals(function() { return $('input.page-id').val() }, "385",
+        test.assertEvalEquals(function() { return $('input.page-id').val() }, "385",
             "Nav form updates on route change");
     })
     .then(function() {
         this.evaluate(function() { $('input.page-id').val('133').change() })
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/133/, 'Book reading route correct');
+        test.assertRoute(/^book\/\d+\/read\/133/, 'Book reading route correct');
     })
     .then(function() {
-        function testNavField(test, expected) {
-            casper.evaluate(function(test) { $('input.page-id').val(test).change() },
-                { test: test });
-            t.assertMessage("Sorry, there isn't a page '" + test + "' in this book.",
-                "Nav error message shown");
-            t.assertEvalEquals(function() { return $('input.page-id').val() }, expected,
-                "Nav form won't accept an invalid page: " + test);
-        }    
-        testNavField('spam', '133');
-        testNavField('200', '133');
-        testNavField('', '133');
-    });
-    
-casper
-    .describe('Reading View page > Page View Controls')
-    .thenOpen(viewUrl)
+	    function testNavField(input, expected) {
+	               casper.evaluate(function(inp) { $('input.page-id').val(inp).change() },
+	                   { test: input });
+	               test.assertMessage("Sorry, there isn't a page '" + input + "' in this book.",
+	                   "Nav error message shown");
+	               test.assertEvalEquals(function() { return $('input.page-id').val() }, expected,
+	                   "Nav form won't accept an invalid page: " + input);
+	           }    
+	           testNavField('spam', '133');
+	           testNavField('200', '133');
+	           testNavField('', '133');
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
+
+
+casper.test.begin('Reading View page > Page View Controls', 22, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/-2', function(){
+		test.assertHttpStatus(200);
+		casper.assertAtBookReadingView(); // 4 tests
+    })
     .assertAtBookReadingView()
     .then(function() {
-        t.assertPermalink(/pageview=text/,
+        test.assertPermalink(/pageview=text/,
             "Page view setting correct in permalink");
-        t.assertVisible('.page-view div.text', 
+        test.assertVisible('.page-view div.text', 
             'Page text is visible');
-        t.assertNotVisible('.page-view div.img', 
+        test.assertNotVisible('.page-view div.img', 
             'Page image is not visible');
-        t.assertDoesNotExist('.imagetoggle .showtext.on',
+        test.assertDoesNotExist('.imagetoggle .showtext.on',
             'Show Text link is disabled');
-        t.assertExists('.imagetoggle .showimg.on',
+        test.assertExists('.imagetoggle .showimg.on',
             'Show Image link is enabled');
     })
     .then(function() {
         this.click('.imagetoggle .showimg.on');
     })
     .then(function() {
-        t.assertPermalink(/pageview=image/,
+        test.assertPermalink(/pageview=image/,
             "Page view setting correct in permalink");
-        t.assertNotVisible('.page-view div.text', 
+        test.assertNotVisible('.page-view div.text', 
             'Page text is not visible');
-        t.assertVisible('.page-view div.img', 
+        test.assertVisible('.page-view div.img', 
             'Page image is visible');
-        t.assertExists('.imagetoggle .showtext.on',
+        test.assertExists('.imagetoggle .showtext.on',
             'Show Text link is enabled');
-        t.assertDoesNotExist('.imagetoggle .showimg.on',
+        test.assertDoesNotExist('.imagetoggle .showimg.on',
             'Show Image link is disabled');
-        t.assertText('.page-view div.img:visible', '(No image available)',
+        test.assertText('.page-view div.img:visible', '(No image available)',
             'No image available message shown');
     })
     .then(function() {
-        t.assertVisible('.nextprev .next.on', 
+        test.assertVisible('.nextprev .next.on', 
             'Next button is active');
         this.click('.nextprev .next.on');
     })
     .then(function() {
-        t.assertVisible('.page-view div.img img', 
+        test.assertVisible('.page-view div.img img', 
             'Page image is visible (actual file)');
-    });
-    
-casper
-    .describe('Reading View page > Places in Page Text')
-    .thenOpen(baseUrl + '#book/2/read/2')
-    .assertAtBookReadingView()
-    .then(function() {
-        t.assertVisible('.page-view div.text span.place[data-place-id="423025"]',
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
+
+
+casper.test.begin('Reading View page > Places in Page Text', 10, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/2', function(){
+		test.assertHttpStatus(200);
+		casper.assertAtBookReadingView(); // 4 tests
+    }).then(function() {
+        test.assertVisible('.page-view div.text span.place[data-place-id="423025"]',
             'Roma is shown in the page text');
         this.click('.page-view div.text span.place[data-place-id="423025"]');
     })
     .waitForInfoWindow()
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/2\/423025/, 'Reading route with place correct');
-        t.assertInfoWindow('Roma', 'Roma is selected in info window after click');
-        t.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
+        test.assertRoute(/^book\/\d+\/read\/2\/423025/, 'Reading route with place correct');
+        test.assertInfoWindow('Roma', 'Roma is selected in info window after click');
+        test.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
             'Roma is highlighted in the page text');
-    });
-    
-casper
-    .describe('Reading View page > Places in Page Text (Selected Place)')
-    .thenOpen(baseUrl + '#book/2/read/2/423025')
+	})
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
+
+casper.test.begin('Reading View page > Places in Page Text (Selected Place)', 9, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/2/423025', function(){
+		test.assertHttpStatus(200);
+    })
+	.assertAtBookReadingView()
+	.waitForInfoWindow()
+	.then(function() {
+    	test.assertRoute(/^book\/\d+\/read\/2\/423025/, 'Reading route with place correct');
+    	test.assertInfoWindow('Roma', 'Roma is selected in info window after click');
+    	test.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
+        'Roma is highlighted in the page text');
+	})
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
+
+casper.test.begin('Reading View page > Timemap', 31, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/-2', function(){
+		test.assertHttpStatus(200);
+	})
     .assertAtBookReadingView()
-    .waitForInfoWindow()
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/2\/423025/, 'Reading route with place correct');
-        t.assertInfoWindow('Roma', 'Roma is selected in info window after click');
-        t.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
-            'Roma is highlighted in the page text');
-    });
-    
-casper
-    .describe('Reading View page > Timemap')
-    .thenOpen(viewUrl)
-    .assertAtBookReadingView()
-    .then(function() {
-        t.assertEval(function() {
+        test.assertEval(function() {
             window.tm = gv.app.currentView.slots['.right-panel'].slots['.top-slot'].tm;
             return !!window.tm;
         }, "TimeMap object found");
-        t.assertEval(function() {
+        test.assertEval(function() {
             return window.tm.getItems().length > 0;
         }, "Some items are loaded on the timemap");
-        t.assertVisible('div.timeline-date-label:contains("-2")',
+        test.assertVisible('div.timeline-date-label:contains("-2")',
             "The first date label is visible");
-        t.assertVisible('#label-tl-0-0-e9',
+        test.assertVisible('#label-tl-0-0-e9',
             "The ninth event is visible");
-        t.assertText('#label-tl-0-0-e9', 'Roma',
+        test.assertText('#label-tl-0-0-e9', 'Roma',
             "Ninth event label is correct");
-        t.assertNotVisible('div.infowindow',
+        test.assertNotVisible('div.infowindow',
             "The info window is closed");
     })
     .then(function() {
@@ -225,66 +259,73 @@ casper
     })
     .waitUntilVisible('div.infowindow')
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/2\/423025/, 'Route with place correct');
-        t.assertInfoWindow('Roma', 'Roma is selected in info window after click');
-        t.assertExists('div.infowindow svg rect',
+        test.assertRoute(/^book\/\d+\/read\/2\/423025/, 'Route with place correct');
+        test.assertInfoWindow('Roma', 'Roma is selected in info window after click');
+        test.assertExists('div.infowindow svg rect',
             "Frequency bars shown in info window");
-        t.assertExists('div.infowindow svg rect.selected:nth-child(3)',
+        test.assertExists('div.infowindow svg rect.selected:nth-child(3)',
             "Correct frequency bar is selected");
-        t.assertDoesNotExist('div.infowindow span.prev.on',
+        test.assertDoesNotExist('div.infowindow span.prev.on',
             'Infowindow previous link is disabled');
-        t.assertExists('div.infowindow span.next.on',
+        test.assertExists('div.infowindow span.next.on',
             'Infowindow next link is disabled');
-        t.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
+        test.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
             'Roma is highlighted in the page text');
     })
     .then(function() {
         this.click('div.infowindow span.next.on');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/5\/423025/, 'Route with place and next page correct');
-        t.assertInfoWindow('Roma', 'Roma is still selected in info window');
-        t.assertExists('div.infowindow span.prev.on',
+        test.assertRoute(/^book\/\d+\/read\/5\/423025/, 'Route with place and next page correct');
+        test.assertInfoWindow('Roma', 'Roma is still selected in info window');
+        test.assertExists('div.infowindow span.prev.on',
             'Infowindow previous link is enabled');
-        t.assertExists('div.infowindow span.next.on',
+        test.assertExists('div.infowindow span.next.on',
             'Infowindow next link is disabled');
-        t.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
+        test.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
             'Roma is highlighted in the page text');
     })
     .then(function() {
         this.click('div.infowindow span.next.on');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/8\/423025/, 'Route with place and next page correct');
-        t.assertInfoWindow('Roma', 'Roma is still selected in info window');
-        t.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
+        test.assertRoute(/^book\/\d+\/read\/8\/423025/, 'Route with place and next page correct');
+        test.assertInfoWindow('Roma', 'Roma is still selected in info window');
+        test.assertVisible('.page-view div.text span.place.hi[data-place-id="423025"]',
             'Roma is highlighted in the page text');
-        t.assertExists('div.infowindow svg rect.selected:nth-child(4)',
+        test.assertExists('div.infowindow svg rect.selected:nth-child(4)',
             "Correct frequency bar is selected");
     })
     .then(function() {
         this.click('div.infowindow span.prev.on');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/5\/423025/, 'Route with place and next page correct');
-        t.assertInfoWindow('Roma', 'Roma is still selected in info window');
+        test.assertRoute(/^book\/\d+\/read\/5\/423025/, 'Route with place and next page correct');
+        test.assertInfoWindow('Roma', 'Roma is still selected in info window');
     })
     .then(function() {
         this.click('div.infowindow svg rect:nth-child(5)');
     })
     .then(function() {
-        t.assertRoute(/^book\/\d+\/read\/23\/423025/, 'Route with place and next page correct');
-        t.assertInfoWindow('Roma', 'Roma is still selected in info window');
-    });
-    
-casper
-    .describe('Reading View page > Selected Place')
-    .thenOpen(baseUrl + '#book/2/read/2/423025')
+        test.assertRoute(/^book\/\d+\/read\/23\/423025/, 'Route with place and next page correct');
+        test.assertInfoWindow('Roma', 'Roma is still selected in info window');
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
+
+
+casper.test.begin('Reading View page > Selected Place', 29, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/2/423025', function(){
+		test.assertHttpStatus(200);
+	})
     .assertAtBookReadingView()
     .waitForInfoWindow()
     .then(function() {
-        t.assertInfoWindow('Roma', 'Roma is selected in info window');
-        t.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
+        test.assertInfoWindow('Roma', 'Roma is selected in info window');
+        test.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
             'Place Details button is active');
     })
     .then(function() {
@@ -292,41 +333,48 @@ casper
     })
     .assertAtBookPlaceView()
     .then(function() {
-        t.assertText("h2.book-title", 'The Works of Cornelius Tacitus: The History',
+        test.assertText("h2.book-title", 'The Works of Cornelius Tacitus: The History',
             "Book title shown");
-        t.assertText('.place-summary-view h3', 'Roma',
+        test.assertText('.place-summary-view h3', 'Roma',
             "Place title shown in summary");
-        t.assertPermalink(RegExp(baseUrl + '#book/2/place/423025\\?'),
+        test.assertPermalink(RegExp(baseUrl + '#book/2/place/423025\\?'),
             "Permalink is correct");
     })
     .back()
     .assertAtBookReadingView()
     .waitForInfoWindow()
     .then(function() {
-        t.assertRoute("book/2/read/2/423025", 'Reading details route correct');
-        t.assertInfoWindow('Roma', 'Roma is still selected in info window');
+        test.assertRoute("book/2/read/2/423025", 'Reading details route correct');
+        test.assertInfoWindow('Roma', 'Roma is still selected in info window');
     })
     .then(function() {
         this.click('div.navigation-view button[data-view-id="place-view"]');
     })
     .assertAtBookPlaceView()
     .then(function() {
-        t.assertText("h2.book-title", 'The Works of Cornelius Tacitus: The History',
+        test.assertText("h2.book-title", 'The Works of Cornelius Tacitus: The History',
             "Book title shown");
-        t.assertText('.place-summary-view h3', 'Roma',
+        test.assertText('.place-summary-view h3', 'Roma',
             "Place title shown in summary");
-        t.assertPermalink(RegExp(baseUrl + '#book/2/place/423025\\?'),
+        test.assertPermalink(RegExp(baseUrl + '#book/2/place/423025\\?'),
             "Permalink is correct");
-    });
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
     
-casper
-    .describe('Reading View page > Info Window closing back/forward')
-    .thenOpen(baseUrl + '#book/2/read/2/423025')
+
+casper.test.begin('Reading View page > Info Window closing back/forward', 18, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/2/423025', function(){
+		test.assertHttpStatus(200);
+	})
     .assertAtBookReadingView()
     .waitForInfoWindow()
     .then(function() {
-        t.assertInfoWindow('Roma', 'Roma is selected in info window');
-        t.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
+        test.assertInfoWindow('Roma', 'Roma is selected in info window');
+        test.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
             'Place Details button is active');
     })
     .then(function() {
@@ -334,33 +382,38 @@ casper
     })
     .waitForInfoWindowClose()
     .then(function() {
-        t.assertRoute(/^book\/2\/read\/2$/, 'Reading route correct, no place');
-        t.assertDoesNotExist('div.infowindow',
+        test.assertRoute(/^book\/2\/read\/2$/, 'Reading route correct, no place');
+        test.assertDoesNotExist('div.infowindow',
             'Info window is closed');
-        t.assertExists('div.navigation-view button[data-view-id="place-view"].disabled',
+        test.assertExists('div.navigation-view button[data-view-id="place-view"].disabled',
             'Place Details button is disabled');
     })
     .back()
     .waitForInfoWindow('Info window re-opens on back')
     .then(function() {
-        t.assertInfoWindow('Roma', 'Roma is selected in info window');
-        t.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
+        test.assertInfoWindow('Roma', 'Roma is selected in info window');
+        test.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
             'Place Details button is active');
     })
     .forward()
     .then(function() {
-        t.assertRoute(/^book\/2\/read\/2$/, 'Reading route correct, no place');
-        t.assertDoesNotExist('div.infowindow',
+        test.assertRoute(/^book\/2\/read\/2$/, 'Reading route correct, no place');
+        test.assertDoesNotExist('div.infowindow',
             'Info window is closed');
-        t.assertExists('div.navigation-view button[data-view-id="place-view"].disabled',
+        test.assertExists('div.navigation-view button[data-view-id="place-view"].disabled',
             'Place Details button is disabled');
-    });
-    
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
+});
 
-casper
-    .describe('Reading View page > Info Window closing - place page interaction')
-    .thenOpen(baseUrl + '#book/2/read/2/423025')
-    .assertAtBookReadingView()
+casper.test.begin('Reading View page > Info Window closing - place page interaction', 18, function suite(test) {
+	casper.start(baseUrl + '#book/2/read/2/423025', function(){
+		test.assertHttpStatus(200);
+	})
+	.assertAtBookReadingView()
     .waitForInfoWindow()
     .then(function() {
         this.click('div.infowindow span.goto-place');
@@ -375,12 +428,12 @@ casper
     .back()
     .waitForInfoWindow('Info window re-opens on back')
     .then(function() {
-        t.assertInfoWindow('Roma', 'Roma is selected in info window');
-        t.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
+        test.assertInfoWindow('Roma', 'Roma is selected in info window');
+        test.assertDoesNotExist('div.navigation-view button[data-view-id="place-view"].disabled',
             'Place Details button is active');
-    });
-    
-
-casper.run(function() {
-    t.done();
+    })
+	.thenOpen('about:blank');
+	casper.run(function() {
+		test.done();
+	});
 });
