@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<project name="gapvis" default="build-dev">
+    
+    <!-- define ant-contrib tasks -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+    
+    <!-- get properties -->
+    <property file="build.properties" />
+    <property name="build.dir" value="build" />
+    <property name="target.dir" value="." />
+    <property name="index.template" value="index.tmpl.html" />
+    <property name="index.build" value="${build.dir}/index.html" />
+    <property name="index.target" value="index.html" />
+    
+    <property name="js.concat" value="scripts-all.js" />
+    <property name="js.concat.build" value="${build.dir}/${js.concat}" />
+    <property name="js.concat.target" value="${target.dir}/${js.concat}" />
+    
+    <!-- define git macro -->
+    <macrodef name="git">
+        <attribute name="command" />
+        <attribute name="dir" default="" />
+        <element name="args" optional="true" />
+        <sequential>
+            <echo message="git @{command}" />
+            <exec executable="${git.exe}" dir="@{dir}">
+                <arg value="@{command}" />
+                <args/>
+            </exec>
+        </sequential>
+    </macrodef>
+    
+    
+    <!-- Build Targets -->
+    <target name="build-dev"
+            depends="start-build,
+                     build-js-dev, 
+                     build-css-dev,
+                     build-templates,
+                     finish-build"/>
+            
+    <target name="build-production"
+            depends="start-build,
+                     build-js-production, 
+                     build-css-production,
+                     build-templates,
+                     build-analytics,
+                     finish-build"/>
+            
+    <!-- Shared Targets -->
+    <target name="start-build">
+        <mkdir dir="${build.dir}"/>
+        <copy file="${index.template}" tofile="${index.build}"/>
+    </target>
+    
+    <target name="finish-build">
+        <copy file="${index.build}" tofile="${index.target}"/>
+        <delete dir="${build.dir}" />
+    </target>
+    
+    <target name="build-templates">
+        <echo>Inserting template code</echo>
+        <!-- Put in template files -->
+        <for list="${js.app.templates}" param="file" trim="true">
+            <sequential>
+                <!-- Get file contents and name -->
+                <local name="template.contents"/>
+                <loadfile property="template.contents" srcFile="@{file}"/>
+                <local name="template.id"/>
+                <basename property="template.id" file="@{file}" suffix=".html"/>
+                <!-- insert at placeholder -->
+                <replace file="${index.build}" 
+                    token="${placeholder.templates}"
+                    value="&lt;script type=&quot;text/template&quot; id=&quot;${template.id}&quot;&gt;${template.contents}&lt;/script&gt;${placeholder.templates}"/>
+            </sequential>
+        </for>
+        <!-- Clean up placeholder -->
+        <replace file="${index.build}" token="${placeholder.templates}" value=""/>
+    </target>
+    
+    <!-- Dev Targets -->
+    
+    <target name="build-js-dev">
+        <echo>Creating tags for dev JS files</echo>
+        <!-- Put in script files -->
+        <for list="${js.files.dev}" param="file.url" trim="true">
+            <sequential>
+                <replace file="${index.build}" 
+                    token="${placeholder.js}"
+                    value="&lt;script type=&quot;text/javascript&quot; src=&quot;@{file.url}&quot;&gt;&lt;/script&gt;${placeholder.js}"/>
+            </sequential>
+        </for>
+        <!-- Clean up placeholder -->
+        <replace file="${index.build}" token="${placeholder.js}" value=""/>
+    </target>
+    
+    <target name="build-css-dev">
+        <echo>Creating tags for dev CSS files</echo>
+        <!-- Put in css files -->
+        <for list="${css.files}" param="file.url" trim="true">
+            <sequential>
+                <replace file="${index.build}" 
+                    token="${placeholder.css}"
+                    value="&lt;link rel=&quot;stylesheet&quot; href=&quot;@{file.url}&quot;&gt;${placeholder.css}"/>
+            </sequential>
+        </for>
+        <!-- Clean up placeholder -->
+        <replace file="${index.build}" token="${placeholder.css}" value=""/>
+    </target>
+    
+    <!-- Production Targets -->
+    
+    <target name="js.minify.concat">
+        <echo>Minifying and concatenating JS files</echo>
+        <!-- Add compressed libs -->
+        <for list="${js.lib.min}" param="file" trim="true">
+            <sequential>
+                <echo>Adding @{file} to ${js.concat.file}</echo>
+                <!-- add to file -->
+                <concat destfile="${js.concat.build}" append="yes">
+                    <fileset file="@{file}"/>
+                </concat>
+            </sequential>
+        </for>
+        <!-- Compress and add extensions and apps -->
+        <for list="${js.libext}, ${js.files.app}" param="file" trim="true">
+            <sequential>
+                <echo>Compressing @{file}</echo>
+                <!-- compress -->
+                <java jar="${yuicompressor.jar}" fork="true" failonerror="true">
+                    <arg line=" --line-break 4000 -o @{file}.min.tmp @{file}"/>
+                </java>
+                <!-- add to file -->
+                <concat destfile="${js.concat.build}" append="yes">
+                    <fileset file="@{file}.min.tmp"/>
+                </concat>
+                <!-- clean up -->
+                <delete file="@{file}.min.tmp"/>
+            </sequential>
+        </for>
+    </target>
+    
+    <target name="build-js-production" depends="js.minify.concat">
+        <echo>Creating tags for production JS files</echo>
+        <!-- Move script file to production -->
+        <copy file="${js.concat.build}" tofile="${js.concat.target}"/>
+        <!-- Put in script files -->
+        <for list="${js.lib.nomunge}, ${js.concat.target}" param="file.url" trim="true">
+            <sequential>
+                <replace file="${index.build}" 
+                    token="${placeholder.js}"
+                    value="&lt;script type=&quot;text/javascript&quot; src=&quot;@{file.url}&quot;&gt;&lt;/script&gt;${placeholder.js}"/>
+            </sequential>
+        </for>
+        <!-- Clean up placeholder -->
+        <replace file="${index.build}" token="${placeholder.js}" value=""/>
+    </target>
+    
+    <target name="build-css-production">
+        <echo>Creating tags for production CSS files</echo>
+        <!-- Put in css files -->
+        <for list="${css.files}" param="file.url" trim="true">
+            <sequential>
+                <replace file="${index.build}" 
+                    token="${placeholder.css}"
+                    value="&lt;link rel=&quot;stylesheet&quot; href=&quot;@{file.url}&quot;&gt;${placeholder.css}"/>
+            </sequential>
+        </for>
+        <!-- Clean up placeholder -->
+        <replace file="${index.build}" token="${placeholder.css}" value=""/>
+    </target>
+    
+    <target name="build-analytics">
+        <echo>Inserting Google Analytics code</echo>
+        <!-- Get file contents and name -->
+        <loadfile property="template.contents" srcFile="analytics.html"/>
+        <!-- insert at placeholder -->
+        <replace file="${index.build}" 
+            token="${placeholder.analytics}"
+            value="${template.contents}"/>
+    </target>
+    
+    <!-- Deploy to GitHub Pages -->
+    <target name="deploy">
+        <!-- Checkout pages branch -->
+        <git command="checkout">
+            <args>
+                <arg value="gh-pages"/>
+            </args>
+        </git>
+        <!-- Merge changes -->
+        <git command="merge">
+            <args>
+                <arg value="master"/>
+            </args>
+        </git>
+        <!-- Build production and commit -->
+        <ant target="build-production"/>
+        <git command="add">
+            <args>
+                <arg value="-f"/>
+                <arg value="index.html"/>
+                <arg value="${js.concat.target}"/>
+            </args>
+        </git>
+        <git command="commit">
+            <args>
+                <arg value="-m 'Latest production build'"/>
+            </args>
+        </git>
+        <git command="push">
+            <args>
+                <arg value="origin"/>
+                <arg value="gh-pages"/>
+            </args>
+        </git>
+        <git command="checkout">
+            <args>
+                <arg value="master"/>
+            </args>
+        </git>
+    </target>
+    
+</project>
