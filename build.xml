@@ -99,7 +99,8 @@
             <isset property="locallibs"/>
         </condition>
         <property name="js.insert.files" 
-                  value="${js.lib.remote}, 
+                  value="${js.settings.dev},
+				  		 ${js.lib.remote}, 
                          ${js.lib.dev}, 
                          ${js.libext},
                          ${js.app.init}" />
@@ -112,7 +113,8 @@
     <target name="-start-build-production" depends="-start-build-settings">
         <!-- Note: js.lib.production.min is already added in concat-libs-js -->
         <property name="js.uglify.files" 
-                  value="${js.lib.production.uglify},
+                  value="${js.settings.production},
+				  		 ${js.lib.production.uglify},
                          ${js.libext},
                          ${js.rjs.target},
                          ${js.app.init}"/>
