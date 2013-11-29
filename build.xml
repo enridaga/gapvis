@@ -215,18 +215,26 @@
         </condition>
         <for list="${js.uglify.files}" param="file" trim="true">
             <sequential>
-                <echo>Compressing @{file}</echo>
+				
+                <echo>(Not!) Compressing @{file}</echo>
+                <!--
+				<echo>Compressing @{file}</echo>
                 <exec executable="${uglify.js}" failonerror="true">
-                    <arg line="--define-from-module &quot;${basedir}/${js.settings}&quot;"/>
+                    <arg line="- -define-from-module &quot;${basedir}/${js.settings}&quot;"/>
                     <arg line="${js.compress.argument}"/>
                     <arg line="@{file} > @{file}.min.tmp"/>
-                </exec>
-                <!-- add to file -->
-                <concat destfile="${js.concat.build}" append="yes">
+                </exec> 
+				<concat destfile="${js.concat.build}" append="yes">
                     <fileset file="@{file}.min.tmp"/>
                 </concat>
-                <!-- clean up -->
-                <delete file="@{file}.min.tmp"/>
+                <delete file="@{file}.min.tmp"/>	
+					-->
+                <!-- add to file -->
+				<concat destfile="${js.concat.build}" append="yes">
+                    <fileset file="@{file}"/>
+                </concat>
+                
+                
             </sequential>
         </for>
         <!-- Move script file to production -->
