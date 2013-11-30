@@ -113,13 +113,13 @@
     <target name="-start-build-production" depends="-start-build-settings">
         <!-- Note: js.lib.production.min is already added in concat-libs-js -->
         <property name="js.uglify.files" 
-                  value="${js.settings.production},
-				  		 ${js.lib.production.uglify},
+                  value="${js.lib.production.uglify},
                          ${js.libext},
                          ${js.rjs.target},
                          ${js.app.init}"/>
         <property name="js.insert.files" 
-                  value="${js.lib.nomunge},
+                  value="${js.settings.production},
+				         ${js.lib.nomunge},
                          ${js.concat.target}" />
         <property name="js.uglify.compress" value="true"/>
         <property name="css.less.compress" value="true"/>
