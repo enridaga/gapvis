@@ -12,6 +12,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         className: 'summary-map-view panel fill',
         
         render: function() {
+			if (DEBUG) console.log("BookSummaryMapView.render");
             if (DEBUG && !window.google) return;
             var view = this,
                 book = view.model,
@@ -25,6 +26,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                 
             // deal with layout issues - div must be visible in DOM before map initialization
             setTimeout(function() {
+
                 // init map
                 var gmap = new gmaps.Map($container[0], {
                         center: bounds.getCenter(),
@@ -39,7 +41,6 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     
                 // set bounds
                 gmap.fitBounds(bounds);
-                
                 book.places.each(function(place) {
                     var theme = colorScale(place.get('frequency')),
                         w = 10,

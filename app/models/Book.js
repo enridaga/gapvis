@@ -100,14 +100,22 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
             // get mins/maxes for bounding box
             var lat = function(ll) { return ll[0] },
                 lon = function(ll) { return ll[1] },
-                points = _(this.places.pluck('ll'));
-                
-            return {
+                points = _(this.places.pluck('ll'));				
+			if( DEBUG ) console.log("Points", points);
+			var bnds = {
                 s: lat(points.min(lat)),
                 w: lon(points.min(lon)),
                 n: lat(points.max(lat)),
                 e: lon(points.max(lon))
             }
+			// We do not allow values not in 
+			// s: -90, w: -180, n: 90, e: 180
+			if(bnds.s <= -90 || bnds.s >= 0) bnds.s = -90;
+			if(bnds.w <= -180 ) bnds.w = -180.0;
+			if(bnds.n >= 90 || bnds.n <= 0) bnds.n = 90.0;
+			if(bnds.e >= 180 ) bnds.e = 180.0;
+			if( DEBUG ) console.log("Bounding for box places", bnds);
+            return bnds;
         },
         
         // return a google maps API bounding box
