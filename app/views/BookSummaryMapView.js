@@ -40,7 +40,9 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     });
                     
                 // set bounds
-                gmap.fitBounds(bounds);
+				
+				gmap.fitBounds(bounds);
+
                 book.places.each(function(place) {
                     var theme = colorScale(place.get('frequency')),
                         w = 10,

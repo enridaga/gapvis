@@ -108,13 +108,14 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
                 n: lat(points.max(lat)),
                 e: lon(points.max(lon))
             }
+			// if( DEBUG ) console.log("Computed Bounding for box places", bnds);
 			// We do not allow values not in 
 			// s: -90, w: -180, n: 90, e: 180
-			if(bnds.s <= -90 || bnds.s >= 0) bnds.s = -90;
+			if(bnds.s <= -90 || bnds.s >= 90 || bnds.s == 0) bnds.s = -90;
 			if(bnds.w <= -180 ) bnds.w = -180.0;
-			if(bnds.n >= 90 || bnds.n <= 0) bnds.n = 90.0;
+			if(bnds.n >= 90 || bnds.n <= -90 || bnds.s == 0) bnds.n = 90.0;
 			if(bnds.e >= 180 ) bnds.e = 180.0;
-			if( DEBUG ) console.log("Bounding for box places", bnds);
+			// if( DEBUG ) console.log("Bounding for box places", bnds);
             return bnds;
         },
         
