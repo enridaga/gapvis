@@ -12,7 +12,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         className: 'summary-map-view panel fill',
         
         render: function() {
-			if (DEBUG) console.log("BookSummaryMapView.render");
+			// if (DEBUG) console.log("render");
             if (DEBUG && !window.google) return;
             var view = this,
                 book = view.model,

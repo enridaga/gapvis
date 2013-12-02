@@ -11,6 +11,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         template: '#bars-header-template',
         
         settings: {
+            // buckets: 50,
             buckets: 50,
             color: 'steelblue',
             hicolor: 'orange'
@@ -78,9 +79,19 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     var target = d3.event.target,
                         data = target.__data__,
                         pdata = target.parentNode.__data__;
+					
+					if(DEBUG) console.log("Target data", data);					
+					if(DEBUG) console.log("Place data", pdata);
+						
                     // bar click
                     if ($(target).is('rect')) {
-                        var pageId = pages.at(~~((pages.length * data.idx)/buckets)).id;
+						/*
+						var pageId = pages.at(~~((pages.length * data.idx)/buckets)).id;
+						if(DEBUG) console.log("Place Id", pdata.id);
+						if(DEBUG) console.log("Page Id", data.pid[0]);
+						*/
+						// We take pageId from the data, the above method didn't produce a valid page, somehow
+						var pageId = data.pid[0];
                         state.set({
                             // scrolljump: true,
                             placeid: pdata.id,
@@ -90,6 +101,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     }
                     // label click
                     if ($(target).is('text.title')) {
+						if(DEBUG) console.log("Place Id", pdata.id);
                         state.set({
                             placeid: pdata.id,
                             view: 'place-view'
@@ -120,9 +132,10 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                 sx = d3.scale.linear()
                     .domain([0, buckets])
                     .range([0, w]);
-                    
             // create and cache spark data
             places.forEach(function(place) {
+	            if(DEBUG && (place.id == 423025)) console.log("Bucket", buckets);  
+	            if(DEBUG && (place.id == 423025)) console.log("Sidx", sidx);      
                 if (!place.get('sparkData')) {
                     // make the sparkline data
                     var sdata = d3.range(0, buckets)
@@ -132,17 +145,29 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                                 idx: i
                             }
                         });
+
                     pages.each(function(p, pi) {
                         var pplaces = p.get('places'),
                             pidx = sidx(pi);
+							// Why pidx?
+							//pidx = p.id;
                         if (pplaces && pplaces.indexOf(place.id) >= 0) {
                             sdata[pidx].count++;
+							// The following to pass page ids and page indexes to the spark model. We can have links consistently it later on.
+							if(!sdata[pidx].pi) sdata[pidx].pi = [];
+							if(!sdata[pidx].pid) sdata[pidx].pid = [];
+							sdata[pidx].pi.push(pi);
+							sdata[pidx].pid.push(p.id);
                         }
+						if(DEBUG && (pplaces.indexOf(place.id) >= 0) && (place.id == 423025)) console.log("page " + p.id + 
+						" place " + place.id + 
+						" pidx " + pidx + " ", sdata );
                     });
+					if(DEBUG && (place.id == 423025)) console.log("Spark data", sdata);
                     place.set({ sparkData: sdata });
                 }
             });
-                
+            // if(DEBUG) console.log("Places:",places);
             var sparkMax = d3.max(places, function(d) { 
                     return d3.max(d.get('sparkData'), function(sd) { return sd.count }) 
                 }),

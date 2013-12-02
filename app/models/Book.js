@@ -46,14 +46,16 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
                 p.id = String(p.id);
                 return p;
             }));
-            // calculate frequencies
+            // calculate frequencies of place in all pages
             pages.each(function(page) {
+				// if(DEBUG) console.log("Page", page);
                 page.get('places').forEach(function(placeId) {
                     var place = places.get(placeId),
                         freq = place.get('frequency');
                     place.set({ frequency: freq+1 })
                 });
             });
+			if(DEBUG) console.log("Places: ", places);
             places.sort();
         },
         
@@ -101,7 +103,7 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
             var lat = function(ll) { return ll[0] },
                 lon = function(ll) { return ll[1] },
                 points = _(this.places.pluck('ll'));				
-			if( DEBUG ) console.log("Points", points);
+			// if( DEBUG ) console.log("Points", points);
 			var bnds = {
                 s: lat(points.min(lat)),
                 w: lon(points.min(lon)),
@@ -113,7 +115,7 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
 			// s: -90, w: -180, n: 90, e: 180
 			if(bnds.s <= -90 || bnds.s >= 90 || bnds.s == 0) bnds.s = -90;
 			if(bnds.w <= -180 ) bnds.w = -180.0;
-			if(bnds.n >= 90 || bnds.n <= -90 || bnds.s == 0) bnds.n = 90.0;
+			if(bnds.n >= 90 || bnds.n <= -90 || bnds.n == 0) bnds.n = 90.0;
 			if(bnds.e >= 180 ) bnds.e = 180.0;
 			// if( DEBUG ) console.log("Bounding for box places", bnds);
             return bnds;
