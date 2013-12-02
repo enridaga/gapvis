@@ -11,8 +11,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         template: '#bars-header-template',
         
         settings: {
-            // buckets: 50,
             buckets: 50,
+            // buckets: 20,
             color: 'steelblue',
             hicolor: 'orange'
         },
@@ -263,7 +263,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             // let's assume we're in single-page view 
             if (pageId) {
                 var i = pages.indexOf(pages.get(pageId));
-                d3.select($('rect:eq(' + (sidx(i)+1) + ')', this.el)[0])
+                // d3.select($('rect:eq(' + (sidx(i)+1) + ')', this.el)[0])
+                d3.select($('rect:eq(' + (sidx(i)) + ')', this.el)[0])
                     .attr('class', 'selected')
                     .style('fill', settings.hicolor);
             }
