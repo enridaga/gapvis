@@ -80,8 +80,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                         data = target.__data__,
                         pdata = target.parentNode.__data__;
 					
-					if(DEBUG) console.log("Target data", data);					
-					if(DEBUG) console.log("Place data", pdata);
+					// if(DEBUG) console.log("Target data", data);					
+					// if(DEBUG) console.log("Place data", pdata);
 						
                     // bar click
                     if ($(target).is('rect')) {
@@ -134,8 +134,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     .range([0, w]);
             // create and cache spark data
             places.forEach(function(place) {
-	            if(DEBUG && (place.id == 423025)) console.log("Bucket", buckets);  
-	            if(DEBUG && (place.id == 423025)) console.log("Sidx", sidx);      
+	            // if(DEBUG && (place.id == 423025)) console.log("Bucket", buckets);  
+	            // if(DEBUG && (place.id == 423025)) console.log("Sidx", sidx);      
                 if (!place.get('sparkData')) {
                     // make the sparkline data
                     var sdata = d3.range(0, buckets)
@@ -159,11 +159,11 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 							sdata[pidx].pi.push(pi);
 							sdata[pidx].pid.push(p.id);
                         }
-						if(DEBUG && (pplaces.indexOf(place.id) >= 0) && (place.id == 423025)) console.log("page " + p.id + 
-						" place " + place.id + 
-						" pidx " + pidx + " ", sdata );
+						// if(DEBUG && (pplaces.indexOf(place.id) >= 0) && (place.id == 423025)) console.log("page " + p.id + 
+						// " place " + place.id + 
+						// " pidx " + pidx + " ", sdata );
                     });
-					if(DEBUG && (place.id == 423025)) console.log("Spark data", sdata);
+					// if(DEBUG && (place.id == 423025)) console.log("Spark data", sdata);
                     place.set({ sparkData: sdata });
                 }
             });

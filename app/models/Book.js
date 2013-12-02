@@ -55,7 +55,7 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
                     place.set({ frequency: freq+1 })
                 });
             });
-			if(DEBUG) console.log("Places: ", places);
+			// if(DEBUG) console.log("Places: ", places);
             places.sort();
         },
         
