@@ -95,5 +95,21 @@ Page info, including text - id either number or other id scheme (note the syntax
 See also:
     http://gap.alexandriaarchive.org/books/1/page/1.json
 
-#### /place/<place_id>.json
-detailed place info, including geometry, description, metadata, etc (there might be additional metadata we might add):
+#### /places/<place_id>/books.json
+Info about books containing references to the place:
+
+	[
+		{
+    		"id":"13”,
+			"tokenCount":"5”,
+			"uri":"http:\/\/www.google.com\/books?id=IlUMAQAAMAAJ”,
+			"title":"History of the Decline and Fall of the Roman empire for the use of families and young persons, Volume I”,
+			"authors":"Edward Gibbon, Thomas Bowdler”,
+			"date":"1826”,
+			"created":"0000-00-00 00:00:00”,
+			"updated":"2011-10-17 10:48:05”
+		},   …
+	]
+
+See also:
+    http://gap.alexandriaarchive.org/places/874699/books.json
