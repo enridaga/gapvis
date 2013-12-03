@@ -17,12 +17,48 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
             view.bindState('change:placeid',    view.renderPlaceHighlight, view);
             // set backreference
             page.view = view;
-            // load page
+            
+			// load page
             page.ready(function() {
                 view.render();
             });
         },
+		
+		prepareContext: function(){
+			var view = this;
+			var json = view.model.toJSON();
+			// XXX we modify the model here (probably we should do it somewhere else...)
+			var context = {};
+			context.image = json.image || false;
+			context.texts = new Array;
+			for (var p in json){					
+				var lang = false;
+				var text = false;
+				if(p === 'text'){
+					text = json[p];					
+				}else if(m = /text\@([a-zA-Z]{2,3})/.exec(p)){
+					lang = m[1];
+					text = json[p];
+				}
+				if(text !== false){
+					context.texts.push({text: text, lang: lang});
+				}
+			}
+			view.context = context;
+		},
         
+        // override
+        renderTemplate: function(context) {
+            var view = this,
+                template = _.template(view.template);
+			// We override the model to translate the multitext properties
+			if(typeof context === 'undefined'){
+				view.prepareContext();
+				context = view.context;
+			}
+            $(view.el).html(template(context));
+        },
+		
         render: function() {
             var view = this;
             view.renderTemplate();
@@ -35,6 +71,14 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
             var view = this,
                 pageView = state.get('pageview');
             // render
+			// If alternative texts are supported
+			if(view.context.texts){
+				for(var ix in view.context.texts){
+					var txt = view.context.texts[ix];
+					var tg = (pageView == 'text-'+txt.lang);
+					view.$('.text-'+txt.lang).toggle( tg );
+				}
+			}
             view.$('.text').toggle(pageView == 'text');
             view.$('.img').toggle(pageView == 'image');
         },

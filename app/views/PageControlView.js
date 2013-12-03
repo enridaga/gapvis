@@ -41,12 +41,27 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             var view = this,
                 pageView = state.get('pageview');
             // render
-            view.$('.showimg').toggleClass('on', pageView == 'text');
-            view.$('.showtext').toggleClass('on', pageView == 'image');
+			view.$('.showimg').toggleClass('on', pageView != 'image');
+			// If there is support for multiple texts
+			if(typeof view.model.attributes.texts != 'undefined'){
+				for(var ix in view.model.attributes.texts){
+					var txt = view.model.attributes.texts[ix];
+		            view.$('.showtext-' + txt.lang).toggleClass('on', pageView != 'text-' + txt.lang);	
+					view.registerAltTextClick(txt);
+				}
+			}
+            view.$('.showtext').toggleClass('on', pageView != 'text');
         },
+		
+		registerAltTextClick: function(txt){
+            var view = this;
+			var stateValue = 'text-' + txt.lang;
+			view.$('.showtext-' + txt.lang).click('on', function() {
+            		state.set({ pageview: stateValue })
+        		});				
+		},
         
         // UI Event Handlers - update state
-        
         events: {
             'click .next.on':       'uiNext',
             'click .prev.on':       'uiPrev',

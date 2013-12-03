@@ -1,2 +1,2 @@
-<div class="text"><%= text %></div>
+<% _.each(texts, function(t){ %><div class="text<% if(t.lang){ %>-<%=t.lang%><%}%>" lang="<%= t.lang %>"><%= t.text %></div> <% }); %>
 <div class="img"><% if (image) { %><img src="<%= image %>"><% } else { %>(No image available)<% } %></div>
