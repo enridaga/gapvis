@@ -184,7 +184,65 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
         // previous page id
         prevPlaceRef: function(pageId, placeId) {
             return this.nextPrevPlaceRef(pageId, placeId, true);
-        }
+        },
+
+		pageIdToRef: function(pageId){
+			var book = this;
+			// setup ref attribute
+			if(typeof book.attributes.sections !== 'undefined'){
+				var sections = book.attributes.sections;
+				var section = "";
+				var fp = 0;
+				var pageInSection = 0;
+				for(var i in sections){
+					i = parseInt(i);
+					if(
+						(parseInt(sections[i].firstPage) == parseInt(pageId) ) ||
+						  (
+							(parseInt(sections[i].firstPage) < parseInt(pageId) && ( (typeof sections[i+1] === 'undefined') || parseInt(sections[i+1].firstPage) > parseInt(pageId) )
+						  )
+						)
+					){
+						section = sections[i].section;
+						fp = parseInt(sections[i].firstPage);
+						pageInSection = (parseInt(section)>1)?(parseInt(pageId) - parseInt(fp) ):parseInt(pageId);
+						break;
+					}
+				}
+				return {
+					section: section,
+					page: pageInSection,
+					pageId: pageId,
+					label: section + "." + pageInSection
+				}
+			}
+		},
+		refToPageId: function(ref){
+			var book = this;
+			
+			// setup ref attribute
+			if(typeof book.attributes.sections !== 'undefined'){
+				
+				var ref = ref.split(".");
+				var section = parseInt(ref[0]);
+				var pageInSection = parseInt(ref[1]);
+				// We don't accept a page = 0
+				if(pageInSection == 0){
+					return;
+				}
+				if(section === 1) return pageInSection;
+				
+				var sections = book.attributes.sections;
+				for(var i in sections){
+					i = parseInt(i);
+					if(
+						(parseInt(section) == parseInt(sections[i].section) ) ){
+							return parseInt(sections[i].firstPage) + pageInSection;
+						break;
+					}
+				}
+			}
+		}
     });
     
 });

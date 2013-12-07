@@ -17,7 +17,7 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
             view.bindState('change:placeid',    view.renderPlaceHighlight, view);
             // set backreference
             page.view = view;
-            
+
 			// load page
             page.ready(function() {
                 view.render();

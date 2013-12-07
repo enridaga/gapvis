@@ -15,7 +15,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             view.bindState('change:pageid', view.renderNextPrev, view);
             view.bindState('change:pageview', view.renderPageView, view);
         },
-        
+		
         render: function() {
             var view = this;
             // fill in template
@@ -30,11 +30,18 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                 book = view.model,
                 pageId = state.get('pageid') || book.firstId(),
                 prev = view.prev = book.prevId(pageId),
-                next = view.next = book.nextId(pageId);
+                next = view.next = book.nextId(pageId),
+				ref  = book.pageIdToRef(pageId);
+;
+						
             // render
             view.$('.prev').toggleClass('on', !!prev);
             view.$('.next').toggleClass('on', !!next);
-            view.$('.page-id').val(pageId);
+			if(typeof ref !== 'undefined'){
+				view.$('.page-id').val(ref.label);
+			}else{
+				view.$('.page-id').val(pageId);
+			}
         },
         
         renderPageView: function() {
@@ -87,7 +94,16 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         },
         
         uiJumpToPage: function(e) {
-            var pageId = $(e.target).val();
+			var view = this,
+				book = view.model,
+            	pageId = $(e.target).val(),
+				showPageId = pageId;
+			// FIXME this should be all moved in the book
+			// if pageId is a ref we need to rebuild the pageId
+			if( pageId.indexOf('.') !== -1 && (typeof book.attributes.sections !== 'undefined')){
+				// discover pageId
+				pageId = book.refToPageId(pageId, book);
+			}
             if (pageId && this.model.pages.get(pageId)) {
                 // valid pageId
                 state.set({ scrolljump: true });
@@ -97,7 +113,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                 this.renderNextPrev();
                 state.set({ 
                     message: {
-                        text: "Sorry, there isn't a page '" + pageId + "' in this book.",
+                        text: "Sorry, there isn't a page '" + showPageId + "' in this book.",
                         type: "error"
                     }
                 });
