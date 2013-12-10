@@ -10,9 +10,9 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
-    <link rel="stylesheet" href="./styles-gv-130237083751.css">
+    <link rel="stylesheet" href="./styles-gv-131008110837.css">
     
-    <script type="text/javascript" src="config/settings.production.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-130237083751.js"></script>
+    <script type="text/javascript" src="config/settings.production.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-131008110837.js"></script>
     
     <script type="text/javascript">
 
@@ -145,14 +145,17 @@
 </nav>
 <a class="permalink btn btn-primary" title="Permalink" href="#"><i class="glyphicon glyphicon-bookmark glyphicon-white"></i></a></script><script type="text/template" id="page-control-template"><div class="nextprev">
     <span class="prev control">&lt;&lt; previous</span>
-    <input class="page-id" maxlength="5">
+    <input class="page-id" maxlength="8">
     <span class="next control">next &gt;&gt;</span>
 </div>
 <div class="imagetoggle">
     Show:
     <span class="showtext control">Text</span> |
+    <% if(typeof texts != 'undefined') _.each(texts, function(t){ %>
+   <span class="showtext-<%=t.lang %> control"><%=t.label %></span> |
+    <% }); %> 
     <span class="showimg control">Scan</span>
-</div></script><script type="text/template" id="page-template"><div class="text"><%= text %></div>
+</div></script><script type="text/template" id="page-template"><% _.each(texts, function(t){ %><div class="text<% if(t.lang){ %>-<%=t.lang%><%}%>" lang="<%= t.lang %>"><%= t.text %></div> <% }); %>
 <div class="img"><% if (image) { %><img src="<%= image %>"><% } else { %>(No image available)<% } %></div></script><script type="text/template" id="place-summary-template"><h3><%= title %></h3>
 <div class="frequency-bars"></div>
 <p>
