@@ -48,14 +48,12 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
             }));
             // calculate frequencies of place in all pages
             pages.each(function(page) {
-				// if(DEBUG) console.log("Page", page);
                 page.get('places').forEach(function(placeId) {
                     var place = places.get(placeId),
                         freq = place.get('frequency');
                     place.set({ frequency: freq+1 })
                 });
             });
-			// if(DEBUG) console.log("Places: ", places);
             places.sort();
         },
         
@@ -65,6 +63,10 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
         
         // array of page labels for timemap
         labels: function() {
+			// if(this.supportsSections()){
+			// 	var book = this;
+			// 	return this.pages.map(function(p) { return book.pageIdToRef(p.id).label });
+			// }
             return this.pages.map(function(p) { return p.id });
         },
         
@@ -186,10 +188,14 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
             return this.nextPrevPlaceRef(pageId, placeId, true);
         },
 
+		supportsSections: function(){
+			return (typeof this.attributes.sections !== 'undefined');
+		},
+		
 		pageIdToRef: function(pageId){
 			var book = this;
 			// setup ref attribute
-			if(typeof book.attributes.sections !== 'undefined'){
+			if(book.supportsSections()){
 				var sections = book.attributes.sections;
 				var section = "";
 				var fp = 0;

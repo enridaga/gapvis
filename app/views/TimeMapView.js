@@ -24,7 +24,7 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
                 eventSource:    false
             })
         ];
-    
+
     // View: TimemapView
     return BookView.extend({
         className: 'timemap-view panel fill',
@@ -45,6 +45,28 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
             view.labelUtils = view.labelUtils || new LabelUtils(
                 bandInfo, view.model.labels(), function() { return false; }
             );
+			
+			// start support for sections
+			// override labeller
+			if(typeof view.model.attributes.sections !== 'undefined'){
+
+				view.labelUtils.labeller = {
+					labelInterval: function(date, intervalUnit) {
+						var book = view.model.pages.book; // spaghetti here...
+						var label = view.labelUtils.dateToLabel(date);
+						return {
+							text: book.pageIdToRef(label).label,
+							emphasized: view.labelUtils.emphasize(label)
+						};
+					}
+				};
+
+				for (var x=0; x<bandInfo.length; x++) {
+					bandInfo[x].labeller = view.labelUtils.labeller;
+				}
+			}	
+			// end support for sections
+			
             return view.labelUtils;
         },
         
@@ -96,6 +118,7 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
                 return loader;
             }
             function implFormatUrl(url, start, end) {
+
                 return [
                     labelUtils.dateToLabel(start),
                     labelUtils.dateToLabel(end)
@@ -147,6 +170,7 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
                                             gmaps = google.maps;
                                         // set start
                                         item.start = labelUtils.getLabelIndex(item.options.page.id) + ' AD';
+
                                         // set theme
                                         opts.theme = theme;
                                         // set marker images
