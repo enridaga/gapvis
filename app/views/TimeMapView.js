@@ -236,6 +236,7 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
         // UI update functions
         
         updateTimeline: function() {
+
             var view = this,
                 animate = !(state.get('scrolljump'));
             view.scrollTo(state.get('pageid') || view.model.firstId(), animate);
@@ -304,6 +305,7 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
             if (view.animation) {
                 view.animation.stop();
             }
+			
             if (animate) {
                 // insert our variable into the closure. Ugly? Very.
                 SimileAjax.Graphics.createAnimation = function(f, from, to, duration, cont) {

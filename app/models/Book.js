@@ -205,7 +205,7 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
 					){
 						section = sections[i].section;
 						fp = parseInt(sections[i].firstPage);
-						pageInSection = (parseInt(section)>1)?(parseInt(pageId) - parseInt(fp) ):parseInt(pageId);
+						pageInSection = (parseInt(section)>1)?(parseInt(pageId) - (parseInt(fp) - 1)):parseInt(pageId);
 						break;
 					}
 				}
@@ -230,14 +230,14 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
 				if(pageInSection == 0){
 					return;
 				}
-				if(section === 1) return pageInSection;
+				if(section === 1) return new String(pageInSection);
 				
 				var sections = book.attributes.sections;
 				for(var i in sections){
 					i = parseInt(i);
 					if(
 						(parseInt(section) == parseInt(sections[i].section) ) ){
-							return parseInt(sections[i].firstPage) + pageInSection;
+							return new String(parseInt(sections[i].firstPage) + pageInSection -1);
 						break;
 					}
 				}

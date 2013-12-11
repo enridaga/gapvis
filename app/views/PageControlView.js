@@ -86,19 +86,19 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         },
         
         uiShowImage: function() {
-            state.set({ pageview:'image' })
+            state.set({ pageview: 'image' })
         },
         
         uiShowText: function() {
-            state.set({ pageview:'text' })
+            state.set({ pageview: 'text' })
         },
         
         uiJumpToPage: function(e) {
 			var view = this,
 				book = view.model,
+				oldPageId = state.get('pageid'),
             	pageId = $(e.target).val(),
 				showPageId = pageId;
-			// FIXME this should be all moved in the book
 			// if pageId is a ref we need to rebuild the pageId
 			if( pageId.indexOf('.') !== -1 && (typeof book.attributes.sections !== 'undefined')){
 				// discover pageId
@@ -107,7 +107,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             if (pageId && this.model.pages.get(pageId)) {
                 // valid pageId
                 state.set({ scrolljump: true });
-                state.set('pageid', pageId);
+                state.set({ pageid: pageId });
             } else {
                 // not valid
                 this.renderNextPrev();
