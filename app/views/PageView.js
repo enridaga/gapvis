@@ -46,7 +46,7 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
 			}
 			
 			// set text and image availability
-			state.set('pagehastext', (!!json.text || context.texts[0].lang === false) );
+			state.set('pagehastext', (!!json.text || ( context.texts.length > 0 && context.texts[0].lang === false)) );
  			state.set('pagehasimage', !!json.image);
 			view.context = context;
 		},
