@@ -6103,6 +6103,33 @@ footer a:visited {
   bottom: 0;
   width: 100%;
 }
+.layout .left-column {
+  position: absolute;
+  width: 40%;
+}
+.layout .right-column {
+  margin-left: 40%;
+  position: absolute;
+  width: 60%;
+}
+.layout-book-2panel .layout .bottom-slot .left-panel {
+  position: absolute;
+  width: 40%;
+}
+.layout-book-2panel .layout .bottom-slot .right-panel {
+  margin-left: 40%;
+  position: absolute;
+  width: 60%;
+}
+.layout-book-3panel .bottom-slot .left-column {
+  position: absolute;
+  width: 60%;
+}
+.layout-book-3panel .bottom-slot .right-column {
+  margin-left: 60%;
+  position: absolute;
+  width: 40%;
+}
 .layout-full-top .bottom-slot {
   position: absolute;
   bottom: 0;
