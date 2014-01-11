@@ -69,7 +69,22 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
         
         renderPageView: function() {
             var view = this,
+				book = view.options.model.collection.book,
                 pageView = state.get('pageview');
+				
+			// init pageview state
+			if(typeof pageView === 'undefined')	{
+				// if text exists
+				if(typeof book.attributes.text !== 'undefined'){
+					state.set('pageview', 'text');
+				} else if(typeof book.attributes.texts !== 'undefined'){
+					var txt = book.attributes.texts[0];
+					state.set('pageview', 'text-' + txt.lang);
+				} 
+				if(DEBUG) console.log("init pageview to " + state.get('pageview'));
+                pageView = state.get('pageview');
+			}
+			
             // render
 			// If alternative texts are supported
 			if(view.context.texts){

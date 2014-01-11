@@ -95,7 +95,7 @@ Page info, including text - id either number or other id scheme (note the syntax
 See also:
     http://gap.alexandriaarchive.org/books/1/page/1.json
 
-#### /places/<place_id>/books.json
+#### /places/&lt;place_id&gt;/books.json
 Info about books containing references to the place:
 
 	[

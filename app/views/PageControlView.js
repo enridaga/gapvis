@@ -45,19 +45,20 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         },
         
         renderPageView: function() {
+			
             var view = this,
                 pageView = state.get('pageview');
-            // render
-			view.$('.showimg').toggleClass('on', pageView != 'image');
+			// render
+			view.$('.showtext').toggleClass('on', pageView != 'text');
 			// If there is support for multiple texts
 			if(typeof view.model.attributes.texts != 'undefined'){
 				for(var ix in view.model.attributes.texts){
 					var txt = view.model.attributes.texts[ix];
-		            view.$('.showtext-' + txt.lang).toggleClass('on', pageView != 'text-' + txt.lang);	
 					view.registerAltTextClick(txt);
+					view.$('.showtext-' + txt.lang).toggleClass('on', pageView != 'text-' + txt.lang);	
 				}
 			}
-            view.$('.showtext').toggleClass('on', pageView != 'text');
+			view.$('.showimg').toggleClass('on', pageView != 'image');
         },
 		
 		registerAltTextClick: function(txt){

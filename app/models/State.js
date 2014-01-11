@@ -15,7 +15,7 @@ define(['gv'], function(gv) {
         },
     
         defaults: {
-            pageview: 'text',
+            //pageview: 'text', // this may not be true
             barsort: 'ref'
         },
         
