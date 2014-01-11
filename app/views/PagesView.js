@@ -12,6 +12,7 @@ define(['gv', 'views/BookView', 'views/PageView', 'views/ChangeLinkView'],
         
         initialize: function() {
             var view = this;
+			
             view.changeLink = new ChangeLinkView();
             view.render = view.bindReady('render');
             // listen for state changes
@@ -78,6 +79,7 @@ define(['gv', 'views/BookView', 'views/PageView', 'views/ChangeLinkView'],
                     changeLink = this.changeLink;
                 // set the place and token to edit
                 changeLink.placeId = $placeSpan.attr('data-place-id');
+				changeLink.tokenId = $placeSpan.attr("data-token-id");
                 changeLink.token = $placeSpan.text();
                 // clear existing timer, if any
                 changeLink.clearTimer();

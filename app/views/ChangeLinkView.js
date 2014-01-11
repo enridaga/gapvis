@@ -4,6 +4,7 @@
 define(['gv', 'views/ChangeFormView'], function(gv, ChangeFormView) {
     var state = gv.state,
         timer;
+	var settings = gv.settings;
     
     // View: ChangeLinkView (hovering change this link)
     return gv.View.extend({
@@ -57,9 +58,23 @@ define(['gv', 'views/ChangeFormView'], function(gv, ChangeFormView) {
         },
         
         uiButtonClick: function(e) {
-            this.openForm($(e.target).text());
+			var view = this;
+			// if(DEBUG) console.log("cliecked", e);
+			// if(DEBUG) console.log("view", view);
+			// if(DEBUG) console.log("set", settings.REPORT_BAD_TOKEN_URL);
+			if(settings.REPORT_BAD_TOKEN_URL){
+				this.directLink();
+			}else{
+	            this.openForm($(e.target).text());				
+			}
             this.close();
         },
+		
+		directLink: function(){
+			var link = settings.REPORT_BAD_TOKEN_URL.replace('{token-id}', this.tokenId);
+//			if(DEBUG) console.log("report bad token link", link);
+			window.open(link);
+		},
         
         // timer control for hiding the edit link
         
