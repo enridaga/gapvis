@@ -14,6 +14,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             // listen for state changes
             view.bindState('change:pageid', view.renderNextPrev, view);
             view.bindState('change:pageview', view.renderPageView, view);
+            view.bindState('change:pagehastext', view.toggleTextControl, view);
+            view.bindState('change:pagehasimage', view.toggleImageControl, view);
         },
 		
         render: function() {
@@ -23,7 +25,16 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             view.renderNextPrev();
             view.renderPageView();
         },
-        
+		
+		toggleTextControl: function(){
+            var view = this;
+			view.$('.showtext').toggle(!!state.get('pagehastext'));
+		},
+		toggleImageControl: function(){
+            var view = this;
+			view.$('.showimg').toggle(!!state.get('pagehasimage'));
+		},
+
         renderNextPrev: function() {
             // update next/prev
             var view = this,

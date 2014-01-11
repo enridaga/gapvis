@@ -20,7 +20,7 @@ define(['gv', 'models/Model', 'models/Collection'], function(gv, Model, Collecti
         },
         
         isFullyLoaded: function() {
-            return !!this.get('text');
+            return !!this.get('text'); // FIXME this may not exists if multilang book
         }
     });
     

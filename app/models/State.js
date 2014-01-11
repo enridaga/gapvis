@@ -24,7 +24,7 @@ define(['gv'], function(gv) {
             var s = this,
                 opts = silent ? {silent:true} : {};
             _(_.keys(s.attributes))
-                .without('view','bookid','pageview','barsort')
+                .without('view','bookid','pageview','barsort','pagehastext','pagehasimage')
                 .forEach(function(k) {
                     s.unset(k, opts)
                 });

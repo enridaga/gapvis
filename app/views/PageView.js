@@ -44,6 +44,10 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
 					context.texts.push({text: text, lang: lang});
 				}
 			}
+			
+			// set text and image availability
+			state.set('pagehastext', (!!json.text || context.texts[0].lang === false) );
+ 			state.set('pagehasimage', !!json.image);
 			view.context = context;
 		},
         
@@ -64,6 +68,9 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
             view.renderTemplate();
             view.renderPageView();
             view.renderPlaceHighlight();
+			//
+			// can we put thins upper so page control view can know the availability of text/image?
+			
             return view;
         },
         
@@ -74,14 +81,13 @@ define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
 				
 			// init pageview state
 			if(typeof pageView === 'undefined')	{
-				// if text exists
-				if(typeof book.attributes.text !== 'undefined'){
+				// if text exists in page
+				if(typeof view.model.attributes.text !== 'undefined'){
 					state.set('pageview', 'text');
 				} else if(typeof book.attributes.texts !== 'undefined'){
 					var txt = book.attributes.texts[0];
 					state.set('pageview', 'text-' + txt.lang);
 				} 
-				if(DEBUG) console.log("init pageview to " + state.get('pageview'));
                 pageView = state.get('pageview');
 			}
 			
