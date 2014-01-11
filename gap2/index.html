@@ -10,9 +10,9 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
-    <link rel="stylesheet" href="./styles-gv-131100020014.css">
+    <link rel="stylesheet" href="./styles-gv-141115081550.css">
     
-    <script type="text/javascript" src="config/settings.production.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-131100020014.js"></script>
+    <script type="text/javascript" src="config/settings.production.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-141115081550.js"></script>
     
     <script type="text/javascript">
 
@@ -150,10 +150,10 @@
 </div>
 <div class="imagetoggle">
     Show:
-    <span class="showtext control">Text</span> |
-    <% if(typeof texts != 'undefined') _.each(texts, function(t){ %>
-   <span class="showtext-<%=t.lang %> control"><%=t.label %></span> |
-    <% }); %> 
+	<span class="showtext control">Text</span> |
+    <% if(typeof texts !== 'undefined') _.each(texts, function(t){ %>
+    <span class="showtext-<%=t.lang %> control"><%=t.label %></span> |
+    <% }); %>
     <span class="showimg control">Scan</span>
 </div></script><script type="text/template" id="page-template"><% _.each(texts, function(t){ %><div class="text<% if(t.lang){ %>-<%=t.lang%><%}%>" lang="<%= t.lang %>"><%= t.text %></div> <% }); %>
 <div class="img"><% if (image) { %><img src="<%= image %>"><% } else { %>(No image available)<% } %></div></script><script type="text/template" id="place-summary-template"><h3><%= title %></h3>
