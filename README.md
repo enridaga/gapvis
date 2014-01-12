@@ -20,7 +20,7 @@ Comments and questions welcomed at nick (at) nickrabinowitz (dot) com.
 * Deploy it on your Web Server
 
 ### API specification
-This section describe what a data provider must implement to use GapVis as visualization tool.
+This section describes what a data provider must implement to use GapVis as visualization tool.
 
 #### /books/.json
 List of available books, with core metadata:

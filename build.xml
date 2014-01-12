@@ -116,7 +116,8 @@
                   value="${js.lib.production.uglify},
                          ${js.libext},
                          ${js.rjs.target},
-                         ${js.app.init}"/>
+						 ${js.app.init}"/> <!-- ,
+                         -->
         <property name="js.insert.files" 
                   value="${js.settings.production},
 				         ${js.lib.nomunge},
@@ -216,13 +217,17 @@
             <isset property="js.uglify.compress"/>
         </condition>
         <for list="${js.uglify.files}" param="file" trim="true">
+			<sequential>
+				<echo>- @{file}</echo>
+			</sequential>
+		</for>
+        <for list="${js.uglify.files}" param="file" trim="true">
             <sequential>
 				
-                <echo>(Not!) Compressing @{file}</echo>
                 <!--
 				<echo>Compressing @{file}</echo>
                 <exec executable="${uglify.js}" failonerror="true">
-                    <arg line="- -define-from-module &quot;${basedir}/${js.settings}&quot;"/>
+                    <!- - arg line="- -define-from-module &quot;${basedir}/${js.settings}&quot;"/ - - >
                     <arg line="${js.compress.argument}"/>
                     <arg line="@{file} > @{file}.min.tmp"/>
                 </exec> 
@@ -230,15 +235,15 @@
                     <fileset file="@{file}.min.tmp"/>
                 </concat>
                 <delete file="@{file}.min.tmp"/>	
-					-->
+				-->
+                <echo>(Not!) Compressing @{file}</echo>
                 <!-- add to file -->
 				<concat destfile="${js.concat.build}" append="yes">
                     <fileset file="@{file}"/>
                 </concat>
-                
-                
             </sequential>
         </for>
+        
         <!-- Move script file to production -->
         <copy file="${js.concat.build}" tofile="${js.concat.target}"/>
     </target>
