@@ -10,6 +10,11 @@ define(['gv'], function(gv) {
             var view = this,
                 template = _.template(view.template);
             context = context || view.model.toJSON();
+			if (!gv.settings.VIEW_ON){
+				context.viewon = 'Google Books';
+			}else{
+				context.viewon = gv.settings.VIEW_ON;
+			}
             $(view.el).html(template(context));
         },
         

@@ -65,6 +65,7 @@ define(function() {
         REPORT_URL: REPORT_URL,
         API_DATA_TYPE: API_DATA_TYPE,
         disableChangeLink: (typeof disableChangeLink!=='undefined')?!!disableChangeLink:false,
+        VIEW_ON: (typeof VIEW_ON!=='undefined')?VIEW_ON:null,
 		REPORT_BAD_TOKEN_URL: (typeof REPORT_BAD_TOKEN_URL !== 'undefined')?REPORT_BAD_TOKEN_URL:false,
 		
          // google maps style settings
