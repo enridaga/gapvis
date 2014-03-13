@@ -12,6 +12,10 @@ define(['gv'], function(gv) {
             state.on('change:bookid', function() {
                 state.clearBookState(true);
             });
+			// listen changes of pageview
+			// state.on('change:pageview', function(st){
+// 				if(DEBUG) console.log('changed pageview:', st.get('pageview'));
+// 			});
         },
     
         defaults: {

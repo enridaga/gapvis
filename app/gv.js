@@ -68,6 +68,7 @@ define(function() {
         VIEW_ON: (typeof VIEW_ON!=='undefined')?VIEW_ON:null,
 		REPORT_BAD_TOKEN_URL: (typeof REPORT_BAD_TOKEN_URL !== 'undefined')?REPORT_BAD_TOKEN_URL:false,
 		
+		viewOnLink : (typeof VIEW_ON_LINK === 'function') ? VIEW_ON_LINK : false,
          // google maps style settings
         mapStyle: mapStyle,
         scaleColors: scaleColors,

@@ -8,12 +8,29 @@ define(['gv'], function(gv) {
         // utility - render an underscore template to this el's html
         renderTemplate: function(context) {
             var view = this,
+                book = view.model,
                 template = _.template(view.template);
             context = context || view.model.toJSON();
+			if(DEBUG)console.log("BookView context", context);
+			if(DEBUG)console.log("BookView State", gv.state);
 			if (!gv.settings.VIEW_ON){
 				context.viewon = 'Google Books';
 			}else{
 				context.viewon = gv.settings.VIEW_ON;
+			}
+			context.viewonlink = context.uri;
+			if(DEBUG) console.log(" view on link? ", gv.settings.viewOnLink);
+			if(typeof gv.settings.viewOnLink == 'function'){
+				// Current view???
+				if( gv.state.get('view') == 'reading-view' ){
+					if(DEBUG) console.log(" is reading view ");
+					var page = gv.state.get('pageid');
+					if(book.supportsSections()){
+						if(DEBUG) console.log(" supports sections ");
+						page = book.pageIdToRef(page).label; // We set like 1.2
+					}
+					context.viewonlink = gv.settings.viewOnLink(context.uri, page);					
+				}
 			}
             $(view.el).html(template(context));
         },

@@ -258,7 +258,6 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
         },
         
         // UI update functions
-        
         updateTimeline: function() {
 
             var view = this,

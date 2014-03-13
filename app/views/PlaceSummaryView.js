@@ -1,8 +1,8 @@
 /*
  * TimeMap View
  */
-define(['gv', 'views/BookView', 'views/PlaceFrequencyBarsView'], 
-    function(gv, BookView, PlaceFrequencyBarsView) {
+define(['gv', 'views/BookView', 'views/PlaceFrequencyBarsView', 'views/PlaceReferences'], 
+    function(gv, BookView, PlaceFrequencyBarsView, PlaceReferencesView) {
     
     var state = gv.state;
     
@@ -39,8 +39,15 @@ define(['gv', 'views/BookView', 'views/PlaceFrequencyBarsView'],
                     place: place,
                     el: view.$('div.frequency-bars')[0]
                 });
+				// add place references
+				var placeRefs = view.placeRefs = new PlaceReferencesView({
+					model: book,
+					place: place,
+					el: view.$('div.place-references')[0]
+				});
                 // render sub-elements
                 freqBars.render();
+				placeRefs.render();
                 view.renderBarHighlight();
             });
             return this;

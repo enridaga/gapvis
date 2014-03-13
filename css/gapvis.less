@@ -459,7 +459,7 @@ footer {
     
 }
 
-// page summary view
+// place summary view
 .place-summary {
     font-family: @serifFontFamily;
     
@@ -473,9 +473,24 @@ footer {
         margin: 0 0 .5em 0;
     }
 }
-.related-places-view, .book-refs-view {
+.place-references-view, .related-places-view, .book-refs-view {
     h4 {
         margin-top: 0;
+    }
+}
+.place-summary-view {
+    span.reference {
+	    color: @linkColor;
+	    cursor: pointer;
+	    font-weight: normal;
+    
+	    &:hover {
+	        color: @linkColorHover;
+	    }
+    
+	    &.hi {
+	        background: yellow;
+	    }
     }
 }
 .related-places-view p {
