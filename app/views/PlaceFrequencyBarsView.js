@@ -69,11 +69,20 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                 $container.append(view.template);
                 view.renderControls();
             }
-        
+			
+			// Fix width and position for histogram list
+			var attrWidthValue = '';
+			var attrTransformValue = '';
+            if (!singlePlace) {
+				attrWidthValue = 500;
+				attrTransformValue = 'translate(120,0)';
+			}
+			
             // create svg container
             var svg = d3.select($container[0])
               .append('svg:svg')
                 .attr('height', (bh + spacing) * places.length + (singlePlace ? 0 : 10))
+				.attr('width', attrWidthValue).attr('transform',  attrTransformValue)
                 // delegated handler: click
                 .on('click', function() {
                     var target = d3.event.target,
