@@ -475,11 +475,11 @@ h3,
 }
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 13px;
 }
 h5,
 .h5 {
-  font-size: 14px;
+  font-size: 12px;
 }
 h6,
 .h6 {
@@ -6344,9 +6344,21 @@ footer a:visited {
 .place-summary h3 {
   margin: 0 0 .5em 0;
 }
+.place-references-view h4,
 .related-places-view h4,
 .book-refs-view h4 {
   margin-top: 0;
+}
+.place-summary-view span.reference {
+  color: #4682b4;
+  cursor: pointer;
+  font-weight: normal;
+}
+.place-summary-view span.reference:hover {
+  color: #294d6b;
+}
+.place-summary-view span.reference.hi {
+  background: yellow;
 }
 .related-places-view p {
   font-size: .88em;
