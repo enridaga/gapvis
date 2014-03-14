@@ -1,7 +1,7 @@
 /*
  * TimeMap View
  */
-define(['gv', 'views/BookView', 'views/PlaceFrequencyBarsView', 'views/PlaceReferences'], 
+define(['gv', 'views/BookView', 'views/PlaceFrequencyBarsView', 'views/PlaceReferencesView'], 
     function(gv, BookView, PlaceFrequencyBarsView, PlaceReferencesView) {
     
     var state = gv.state;

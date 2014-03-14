@@ -27,6 +27,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 						var plinks = [];
 						if(parseInt(r.count) > 0){
 							r.pi.forEach(function(p){
+								// in spark data, p is the page index, starting from 0. So page at index 0 is page 1
+								p = parseInt(p)+1;
 								var lbl = p;
 								var ref = book.pageIdToRef(p);
 								var pl = '<span class="reference" data-page-id="' + p + '">' + ref.page + '</span>';
@@ -52,6 +54,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 						if(parseInt(r.count) > 0){
 							var frst=true;
 							r.pi.forEach(function(p){
+								// in spark data, p is the page index, starting from 0. So page at index 0 is page 1
+								p = parseInt(p)+1;
 								var pl = '<span class="reference" data-page-id="' + p + '">' + p + '</span>';
 								frst=false;
 								plinks.push(pl);
@@ -61,11 +65,6 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 					});	
  				    $('<p><b>Pages:</b> ' + plinks.join(' ') + '</p>').appendTo(view.el);					
 				}
-//                 related.forEach(function(r) {
-//                     $('<p><span class="reference" data-page-id="' + 
-//                         r.page.id + '">' + r.page.id +
-//                         '</span> (' + r.count + ')</p>').appendTo(view.el);
-//                 });
             });
             return this;
         },
