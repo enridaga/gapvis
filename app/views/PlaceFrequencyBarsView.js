@@ -73,16 +73,19 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 			// Fix width and position for histogram list
 			var attrWidthValue = '';
 			var attrTransformValue = '';
+			var shiftRightValue = 0;
             if (!singlePlace) {
 				attrWidthValue = 500;
-				attrTransformValue = 'translate(120,0)';
+				shiftRightValue = 120;
+				//attrTransformValue = 'translate(120,0)';
 			}
 			
             // create svg container
             var svg = d3.select($container[0])
               .append('svg:svg')
                 .attr('height', (bh + spacing) * places.length + (singlePlace ? 0 : 10))
-				.attr('width', attrWidthValue).attr('transform',  attrTransformValue)
+				.attr('width', attrWidthValue)
+				//.attr('transform',  attrTransformValue)
                 // delegated handler: click
                 .on('click', function() {
                     var target = d3.event.target,
@@ -189,7 +192,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                 .data(places)
               .enter().append('svg:g')
                 .attr('class', 'spark')
-                .attr("transform", function(d, i) { return "translate(0," + y(d,i) + ")"; });
+                .attr("transform", function(d, i) { return "translate(" + shiftRightValue + "," + y(d,i) + ")"; });
             
             // baseline
             spark.append('svg:line')
@@ -238,7 +241,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     .style('font-size', '10px')
                     .attr('x', lw + w)
                     .attr('y', y)
-                    .attr("dx", 3)
+                    .attr("dx", shiftRightValue + 3)
                     .attr("dy", ".9em")
                     .text(frequency);
             }
