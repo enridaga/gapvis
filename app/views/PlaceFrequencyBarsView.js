@@ -71,7 +71,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             }
 			
 			// Fix width and position for histogram list
-			var attrWidthValue = '';
+			var attrWidthValue = 500;
 			var attrTransformValue = '';
 			var shiftRightValue = 0;
             if (!singlePlace) {
