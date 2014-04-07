@@ -10,9 +10,9 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
-    <link rel="stylesheet" href="./styles-gv-141439023926.css">
+    <link rel="stylesheet" href="./styles-gv-140732073212.css">
     
-    <script type="text/javascript" src="config/settings.production.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-141439023926.js"></script>
+    <script type="text/javascript" src="config/settings.production.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-140732073212.js"></script>
     
     <script type="text/javascript">
 
@@ -100,12 +100,12 @@
 <p>
     Published <%= printed %><!--, <%= pages.length %> pages --> &middot;
     <a href="<%= viewonlink %>" target="_blank">View on <%= viewon %></a>
-</p></script><script type="text/template" id="flickr-photo-template"><div class="flickr-photo">
+</p></script><script type="text/template" id="feature-legend-template"><span class="feature-types"></span></script><script type="text/template" id="flickr-photo-template"><div class="flickr-photo">
     <a href="<%= link %>" title="<%= title %>" target="_blank"><img src="<%= src %>" alt="<%= title %>"></a>
 </div></script><script type="text/template" id="flickr-photos-template"><div>
     <h4>Photos from Flickr</h4> <span class="flickr-link">&middot <a href="" target="_blank">View on Flickr &gt;&gt;</a></span>
     <div class="photos"></div>
-</div></script><script type="text/template" id="frequency-legend-template">Least referenced <span class="images"></span> Most referenced</script><script type="text/template" id="index-overview-template"><h2>Overview</h2>
+</div></script><script type="text/template" id="index-overview-template"><h2>Overview</h2>
 <div class="thumbs">
     <img src="images/thumb1.jpg" alt="Map view">
     <img src="images/thumb2.jpg" alt="Sparkline view">
@@ -167,7 +167,8 @@
     <li><a href="http://pelagios.dme.ait.ac.at/api/places/http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F<%= id %>" target="_blank">References in Pelagios</a>
     </li>
 </ul> -->
-<div class="place-references"></div></script><script type="text/template" id="timemap-template"><div class="map-container">
+<div class="place-references"></div></script><script type="text/template" id="timemap-legend-template"><span class="timemap-legend-by-frequency">Least referenced <span class="images"></span> Most referenced</span>
+<span class="timemap-legend-by-feature"><span class="place-types"></span></span></script><script type="text/template" id="timemap-template"><div class="map-container">
     <div class="map"></div>
 </div>
 <div class="timeline-container">

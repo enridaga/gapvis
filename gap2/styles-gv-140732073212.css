@@ -6252,10 +6252,10 @@ footer a:visited {
   font-size: 11px;
   cursor: pointer;
 }
-.frequency-legend-view {
+.timemap-legend-view {
   text-align: right;
 }
-.frequency-legend-view img {
+.timemap-legend-view img {
   margin: 0 5px 3px 5px;
 }
 .navigation-view {
