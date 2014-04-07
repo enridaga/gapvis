@@ -78,7 +78,7 @@ define(function() {
         disableChangeLink: (typeof disableChangeLink!=='undefined')?!!disableChangeLink:false,
         VIEW_ON: (typeof VIEW_ON!=='undefined')?VIEW_ON:null,
 		REPORT_BAD_TOKEN_URL: (typeof REPORT_BAD_TOKEN_URL !== 'undefined')?REPORT_BAD_TOKEN_URL:false,
-		PLACE_THEME: PLACE_THEME,
+		PLACE_THEME: (typeof PLACE_THEME == 'undefined') ? 'frequency' : PLACE_THEME,
 		viewOnLink : (typeof VIEW_ON_LINK === 'function') ? VIEW_ON_LINK : false,
          // google maps style settings
         mapStyle: mapStyle,
