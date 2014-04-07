@@ -6,8 +6,6 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
         settings = gv.settings,
         // map styles
         mapStyle = settings.mapStyle,
-        scaleColors = settings.scaleColors,
-        colorThemes = settings.colorThemes,
         // band info
         bandInfo = [
             Timeline.createBandInfo({
@@ -73,6 +71,8 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
         render: function() {
             var view = this,
                 book = view.model,
+		        scaleColors = settings.scaleColors,
+		        colorThemes = settings.colorThemes,
                 // create themes by frequency
                 colorScale = d3.scale.quantize()
                     .domain([1, book.places.first().get('frequency')])
@@ -163,11 +163,19 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
                                 loader: new InMemoryProgressiveLoader({
                                     // standard loader options
                                     transformFunction: function(item) {
-                                        var theme = colorScale(item.options.place.get('frequency')),
-                                            opts = item.options,
+                                        var opts = item.options,
                                             size = 18,
-                                            color = theme.color,
                                             gmaps = google.maps;
+											
+										var	theme = {};
+                                        // if themes by type is enabled
+										if(state.get('placeTheme') == 'feature') {
+											theme = settings.themeByType(item.options.place);
+										}else{
+											theme = colorScale(item.options.place.get('frequency'));
+										}
+                                        color = theme.color;
+    									
                                         // set start
                                         item.start = labelUtils.getLabelIndex(item.options.page.id) + ' AD';
 

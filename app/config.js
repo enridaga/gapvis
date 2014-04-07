@@ -50,7 +50,7 @@ define({
                     layout: '#layout-full-top',
                     slots: {
                         '.top-slot': 'views/TimeMapView',
-                        '.bottom-slot': 'views/FrequencyLegendView'
+                        '.bottom-slot': 'views/TimeMapLegendView'
                     }
                 }
             }

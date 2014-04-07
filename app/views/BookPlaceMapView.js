@@ -62,12 +62,19 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                     
                     function addMarker(place, opts) {
                         opts = opts || {};
-                        var theme = colorScale(place.get('frequency')),
-                            w = 18,
+                        var theme = {},
+							w = 18,
                             c = w/2,
                             size = new gmaps.Size(w, w),
                             anchor = new gmaps.Point(c, c);
-                            
+                        
+						// if themes by type is enabled
+						if(state.get('placeTheme') == 'feature'){
+							theme = settings.themeByType(place);
+						} else {
+							theme = colorScale(place.get('frequency'));
+						}
+						    
                         title = opts.title || place.get('title');
                         icon = opts.icon || TimeMapTheme.getCircleUrl(w, theme.color, '99');
                         

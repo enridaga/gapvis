@@ -44,10 +44,17 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 				gmap.fitBounds(bounds);
 
                 book.places.each(function(place) {
-                    var theme = colorScale(place.get('frequency')),
+                    var theme = {},
                         w = 10,
-                        c = w/2,
-                        icon = TimeMapTheme.getCircleUrl(w, theme.color, '99');
+                        c = w/2;
+					
+					// if themes by type is enabled
+					if(state.get('placeTheme') == 'feature'){
+						theme = settings.themeByType(place);
+					} else {
+						theme = colorScale(place.get('frequency'));
+					}
+                    var icon = TimeMapTheme.getCircleUrl(w, theme.color, '99');
                         size = new gmaps.Size(w, w),
                         anchor = new gmaps.Point(c, c),
                         marker = new gmaps.Marker({
@@ -62,6 +69,8 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
                             map: gmap, 
                             title: place.get('title')
                         });
+                        
+					
                     // UI listener
                     gmaps.event.addListener(marker, 'click', function() {
                         state.set({ placeid: place.id });

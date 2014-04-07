@@ -1,6 +1,6 @@
 // development settings
-// API_ROOT = 'tests/api';
-// REPORT_URL = 'tests/api/flags/';
+API_ROOT = 'tests/api';
+REPORT_URL = 'tests/api/flags/';
 // API_DATA_TYPE = 'json';
 // DEBUG = true;
 // disableChangeLink = true;
@@ -12,7 +12,7 @@ REPORT_URL = 'http://gap2.alexandriaarchive.org/flags/';
 API_DATA_TYPE = 'json';
 DEBUG = true;
 // if present and not null, makes a direct link isntead of a form. Looks for {token-id}
-REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
+//REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
 VIEW_ON = "Perseus"
 VIEW_ON_LINK = function(uri, page){
 	// uri is the link to the book page on the origin repository
@@ -30,4 +30,5 @@ VIEW_ON_LINK = function(uri, page){
 	}else{
 		return uri;
 	}
-}
+};
+PLACE_THEME = "frequency"; // Supported values are 'frequency' and 'feature'. If the value is set to 'feature' then places should have a 'type' property set to one of the following values: "REGION", "SETTLEMENT", "NATURAL_FEATURE"
