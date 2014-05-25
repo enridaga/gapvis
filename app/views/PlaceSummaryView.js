@@ -29,6 +29,7 @@ define(['gv', 'views/BookView', 'views/PlaceFrequencyBarsView', 'views/PlaceRefe
             }
             // get the place
             place = book.places.get(placeId);
+			console.log("place", place);
             place.ready(function() {
                 view.$el.removeClass('loading');
                 // create content
