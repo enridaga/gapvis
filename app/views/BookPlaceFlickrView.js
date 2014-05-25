@@ -16,6 +16,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         
         render: function() {
             var view = this,
+                book = view.model,
                 placeId = state.get('placeid');
                 
             // render main template
@@ -24,12 +25,18 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             // die if no place
             if (!placeId) return;
             
+			// take the pleiades uri id to point to flickr images
+			var place = book.places.get(placeId);
+			var placeUri = place.get('uri');
+			var pUriFrgs = placeUri.split('/');
+			var placeUriId = pUriFrgs[pUriFrgs.length - 1];
+			
             // add loading spinner
             view.$el.addClass('loading');
              
             // get Flickr data for this place
             $.ajax({
-                url: FLICKR_URL_BASE.replace('[id]', placeId),
+                url: FLICKR_URL_BASE.replace('[id]', placeUriId), // was placeId
                 dataType: 'jsonp',
                 success: function(data) {
                     view.$el.removeClass('loading');
