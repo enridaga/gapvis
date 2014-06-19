@@ -3,7 +3,8 @@
  */
 define(['gv', 'views/BookView'], function(gv, BookView) {
     var state = gv.state,
-        FLICKR_URL_BASE = 'http://api.flickr.com/services/feeds/photos_public.gne?tags=pleiades%3Aplace%3D[id]&format=json&jsoncallback=?';
+        FLICKR_URL_BASE = 'http://api.flickr.com/services/feeds/photos_public.gne?tags=pleiades%3A*%3D[id]&format=json&jsoncallback=?';
+//        FLICKR_URL_BASE = 'http://api.flickr.com/services/feeds/photos_public.gne?tags=pleiades%3Aplace%3D[id]&format=json&jsoncallback=?';
     
     // View: BookPlaceFlickrView (Flickr photos for the place detail page)
     return BookView.extend({
