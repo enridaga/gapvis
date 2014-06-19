@@ -208,7 +208,12 @@ define(['gv', 'views/BookView', 'views/InfoWindowView'], function(gv, BookView, 
                 // set the map to our custom style
                 var gmap = tm.getNativeMap();
                 gmap.setOptions({
-                    styles: mapStyle
+                    styles: mapStyle,
+					panControl: true,
+					zoomControl: true,
+					  zoomControlOptions: {
+					    style: google.maps.ZoomControlStyle.LARGE
+					  }
                 });
                 
                 // set bounds if necessary
