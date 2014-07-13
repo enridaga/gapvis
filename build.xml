@@ -23,17 +23,24 @@
     
     <property name="build.dir" value="build" />
     <property name="target.dir" value="." />
-    <property name="index.template" value="index.tmpl.html" />
  
     <!-- Build Targets -->
     
     <target name="build-dev">
+		<property name="index.template" value="index.tmpl.html" />
         <property name="js.settings" value="${js.settings.dev}"/>
         <ant target="-start-build-dev"/>
     </target>
     
     <target name="build-production">
+	    <property name="index.template" value="index.tmpl.html" />
         <property name="js.settings" value="${js.settings.production}"/>
+        <ant target="-start-build-production"/>
+    </target>
+    
+    <target name="build-hestia">
+	    <property name="index.template" value="index.hestia.tmpl.html" />
+        <property name="js.settings" value="${js.settings.hestia}"/>
         <ant target="-start-build-production"/>
     </target>
                      
@@ -119,7 +126,7 @@
 						 ${js.app.init}"/> <!-- ,
                          -->
         <property name="js.insert.files" 
-                  value="${js.settings.production},
+                  value="${js.settings},
 				         ${js.lib.nomunge},
                          ${js.concat.target}" />
         <property name="js.uglify.compress" value="true"/>

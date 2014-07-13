@@ -20,7 +20,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
             // get the place
             place = book.places.get(placeId);
             place.ready(function() {
-                view.$el.append('<h4>References details</h4>');
+                view.$el.append('<h4>No. of References by Book and Chapter</h4>');
 				if(book.supportsSections()){
 					var sections = [];
 					place.get('sparkData').forEach(function(r){
@@ -45,7 +45,7 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 					});	
 					for(var k in sections) {
 						var plinks = sections[k];
-						$('<p><b>Ch. ' + k + '</b> (' + plinks.length + '): ' + plinks.join(' ') + '</p>').appendTo( view.el );				
+						$('<p><b>Bk. ' + k + '</b> (' + plinks.length + '), Chapters: ' + plinks.join(' ') + '</p>').appendTo( view.el );				
 					};
 				}else{
 					var plinks = [];

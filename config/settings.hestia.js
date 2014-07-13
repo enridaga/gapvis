@@ -11,10 +11,10 @@ REPORT_URL = 'tests/api/flags/';
 API_ROOT = 'http://gap2.alexandriaarchive.org';
 REPORT_URL = 'http://gap2.alexandriaarchive.org/flags/';
 API_DATA_TYPE = 'json';
-DEBUG = true;
+DEBUG = false;
 // if present and not null, makes a direct link isntead of a form. Looks for {token-id}
 //REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
-VIEW_ON = "View on Perseus"
+VIEW_ON = "Search or download the full text via the Perseus Classical Library"
 VIEW_ON_LINK = function(uri, page){
 	// uri is the link to the book page on the origin repository
 	// page is the page number (eg, 1, 3, -13) or reference (eg. 1.1, 4.5)

@@ -1,0 +1,87 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HestiaVis: Visual Interface for Reading Herodotous' Histories</title>
+    <meta name="description" content="HestiaVis: Visual Interface for Reading Herodotus' Histories.">
+    <meta name="author" content="Hestia Project / Google Ancient Places Project">
+	
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <!-- STYLES -->
+    
+    <!-- SCRIPTS -->
+    
+    <!-- ANALYTICS -->
+	
+	<style>
+	#logo-container a {
+		background: url('http://hestia.open.ac.uk/wp-content/uploads/2013/09/Hestia_logo_180px.png') no-repeat;
+		background-size: 100%;
+		display:inline-block;
+		width: 70px;
+		margin: 0px 10px 0px 10px;
+	}
+	</style>
+</head>
+
+<body>
+
+    <div id="container">
+        <header>
+            <!-- h1><a href="#">HestiaVis</a> <span class="beta">BETA</span></h1 -->
+			<h1><div id="logo-container"><a href="http://hestia.open.ac.uk" target="_blank">&nbsp;</a></div></h1>
+            <nav>
+                <a href="index.html">Home</a> &middot; <a href="http://hestia.open.ac.uk/">About</a> &middot; <a href="http://hestia.open.ac.uk/blog/">Blog</a>
+            </nav>
+        </header>
+        <div id="app-view" role="main" class="clearfix"></div>
+        <footer>
+            GapVis (c) 2011 <a href="http://www.nickrabinowitz.com">Nick Rabinowitz</a> / <a href="http://googleancientplaces.wordpress.com/">Google Ancient Places</a>. Hosting by <a href="http://alexandriaarchive.org/">AlexandriaArchive.org</a>. Funding by&nbsp;&nbsp;<img src="images/google_logo.png" alt="Google">.
+        </footer>
+    </div>
+    
+    <div id="message-view">
+        <div class="alert">
+            <button class="close">&times;</button>
+            <span></span>
+        </div>
+    </div>
+    
+    <div id="change-this-link">
+        <button class="btn" title="Report an Issue"><i class="glyphicon glyphicon-edit"></i></button>
+    </div>
+    
+    <div id="change-this-form" class="modal">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close cancel">&times;</button>
+            <h3>Report an Issue</h3>
+        </div>
+        <div class="modal-body">
+            <p>Is something wrong with this place reference? Let us know, so we can fix it!</p>
+            <p>
+                Reference: <span class="ref">"<span id="ctf-place-name"></span>" (<span id="ctf-book-title"></span><span class="pagenum">, 
+                p. <span id="ctf-page-id"></span></span>)</span>
+            </p>
+            <form>
+                <label for="ctf-problem">What's wrong here?</label>
+                <div>
+                    <textarea id="ctf-problem" name="note" rows="5"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn cancel">Cancel</button>
+            <button class="btn btn-primary submit">Submit</button>
+        </div>
+    </div>
+	</div>
+	</div>
+    <!-- TEMPLATES -->
+
+</body>
+</html>

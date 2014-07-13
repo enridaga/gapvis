@@ -42,8 +42,7 @@ define(['gv', 'views/BookView', 'models/Collection',], function(gv, BookView, Co
                     if (DEBUG) console.error('Failed to load related places');
                 }
             });
-            // create content
-            view.$el.append('<h4>Book References</h4>');
+
             return this;
         },
         
@@ -59,12 +58,17 @@ define(['gv', 'views/BookView', 'models/Collection',], function(gv, BookView, Co
             refs = refs.filter(function(book) {
                 return book.id != bookId;
             });
-            if (refs.length)
+            if (refs.length){
+	            // create content
+	            view.$el.append('<h4>Book References</h4>');
                 refs.slice(0, gv.settings.bookRefCount)
                 .forEach(function(book) {
                     view.$el.append(template(book.toJSON()));
                 });
-            else view.$el.append('<p>No other book references were found.</p>');
+			}
+            else {
+				//view.$el.append('<p>No other book references were found.</p>');
+			}
         },
         
         // UI Event Handlers - update state
