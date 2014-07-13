@@ -7,7 +7,10 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
     // View: BookTitleView (title and metadata)
     return BookView.extend({
         template: '#book-title-template',
-        
+        initialize: function(){
+            var view = this;
+            view.bindState('change:pageid', view.render, view);
+        },
         render: function() {
             var view = this;
             view.renderTemplate();
