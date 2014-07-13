@@ -5,6 +5,7 @@ API_DATA_TYPE = 'json';
 DEBUG = false;
 // if present and not null, makes a direct link isntead of a form. Looks for {token-id}
 //REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
+REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
 VIEW_ON = "Search or download the full text via the Perseus Classical Library"
 VIEW_ON_LINK = function(uri, page){
 	// uri is the link to the book page on the origin repository
