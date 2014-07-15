@@ -10,9 +10,9 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
-    <link rel="stylesheet" href="./styles-gv-141322112208.css">
+    <link rel="stylesheet" href="./styles-gv-141519101905.css">
     
-    <script type="text/javascript" src="config/settings.hestia.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-141322112208.js"></script>
+    <script type="text/javascript" src="config/settings.hestia.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="./scripts-gv-141519101905.js"></script>
     
     <script type="text/javascript">
 
@@ -62,9 +62,9 @@
         </div>
     </div>
     
-    <!-- div id="change-this-link">
+    <div id="change-this-link">
         <button class="btn" title="Report an Issue"><i class="glyphicon glyphicon-edit"></i></button>
-    </div -->
+    </div>
     
     <div id="change-this-form" class="modal">
     <div class="modal-dialog">
@@ -97,7 +97,10 @@
 <div>
     <span class="control ref">Most referenced</span> | 
         <span class="control alpha">Alphabetical</span>
-</div></script><script type="text/template" id="book-list-item-template"><span class="book-title control on"><%= title %></span><br>
+</div></script><script type="text/template" id="book-hestia-text-template"><p>
+    The map below gives a big-picture perspective on the places referenced in the Histories. In total, some 691 ancient places are referenced by Herodotus. The graph on the right displays these places according to their rank (‘Most referenced’) or alphabetical order, and where they appear in the narrative.
+</p>
+<p><button class="btn btn-primary goto-reading">Go to Reading View <i class="glyphicon glyphicon-chevron-right glyphicon-white"></button></p></script><script type="text/template" id="book-list-item-template"><span class="book-title control on"><%= title %></span><br>
 <em><%= author %></em></script><script type="text/template" id="book-list-template"><div>
     <h3>Select a book to view:</h3>
     <div class="book-list"></div>
@@ -111,12 +114,19 @@
 <p>
     <!-- Published <%= printed %>, <%= pages.length %> pages &middot; --> 
     <a href="<%= viewonlink %>" target="_blank"><%= viewon %></a>
-</p></script><script type="text/template" id="flickr-photo-template"><div class="flickr-photo">
+</p>
+<%= intro %></script><script type="text/template" id="flickr-photo-template"><div class="flickr-photo">
     <a href="<%= link %>" title="<%= title %>" target="_blank"><img src="<%= src %>" alt="<%= title %>"></a>
 </div></script><script type="text/template" id="flickr-photos-template"><div>
     <h4>Photos from Flickr</h4> <span class="flickr-link">&middot <a href="" target="_blank">View on Flickr &gt;&gt;</a></span>
     <div class="photos"></div>
-</div></script><script type="text/template" id="index-overview-template"><h2>Overview</h2>
+</div></script><script type="text/template" id="hestia-title-template"><h2 class="book-title">The Histories of Herodotus</h2>
+<!--p><em>By <%= author %></em></p-->
+<p>
+    <!-- Published <%= printed %>, <%= pages.length %> pages &middot; --> 
+    <a href="<%= viewonlink %>" target="_blank"><%= viewon %></a>
+</p>
+<%= intro %></script><script type="text/template" id="index-overview-template"><h2>Overview</h2>
 <div class="thumbs">
     <img src="images/thumb1.jpg" alt="Map view">
     <img src="images/thumb2.jpg" alt="Sparkline view">
@@ -150,7 +160,7 @@
         <span class="control next">next &gt;&gt;</span>
     </span>
 </p></script><script type="text/template" id="navigation-view-template"><nav class="btn-group" data-toggle="buttons-radio">
-  <button class="btn btn-small btn-primary" title="Book Summary" data-view-id="book-summary"><i class="glyphicon glyphicon-star glyphicon-white"></i> Book Summary</button>
+  <button class="btn btn-small btn-primary" title="Summary View" data-view-id="book-summary"><i class="glyphicon glyphicon-star glyphicon-white"></i> Summary View</button>
   <button class="btn btn-small btn-primary" title="Reading View" data-view-id="reading-view"><i class="glyphicon glyphicon-book glyphicon-white"></i> Reading View</button>
   <button class="btn btn-small btn-primary" title="Place Detail" data-view-id="place-view"><i class="glyphicon glyphicon-globe glyphicon-white"></i> Place Detail</button>
 </nav>
@@ -161,11 +171,15 @@
 </div>
 <div class="imagetoggle">
     Show:
+	<% if( showtext !== false ) { %>
 	<span class="showtext control">Text</span> |
+	<% } %>
     <% if(typeof texts !== 'undefined') _.each(texts, function(t){ %>
     <span class="showtext-<%=t.lang %> control"><%=t.label %></span> |
     <% }); %>
+	<% if( showimage !== false ) { %>
     <span class="showimg control">Scan</span>
+	<% } %>
 </div></script><script type="text/template" id="page-template"><% _.each(texts, function(t){ %><div class="text<% if(t.lang){ %>-<%=t.lang%><%}%>" lang="<%= t.lang %>"><%= t.text %></div> <% }); %>
 <div class="img"><% if (image) { %><img src="<%= image %>"><% } else { %>(No image available)<% } %></div></script><script type="text/template" id="place-summary-template"><h3><%= title %></h3>
 <div class="frequency-bars"></div>
