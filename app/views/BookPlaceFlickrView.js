@@ -29,6 +29,9 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
 			// take the pleiades uri id to point to flickr images
 			var place = book.places.get(placeId);
 			var placeUri = place.get('uri');
+			// XXX There is a bug here. Sometimes the placeUri is undefined. It might be something not waiting for data to be received...
+			if(!placeUri) return;
+			
 			var pUriFrgs = placeUri.split('/');
 			var placeUriId = pUriFrgs[pUriFrgs.length - 1];
 			

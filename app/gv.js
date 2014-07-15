@@ -80,6 +80,10 @@ define(function() {
 		REPORT_BAD_TOKEN_URL: (typeof REPORT_BAD_TOKEN_URL !== 'undefined')?REPORT_BAD_TOKEN_URL:false,
 		REPORT_PROBLEM_PLACE_URL: (typeof REPORT_PROBLEM_PLACE_URL !== 'undefined')?REPORT_PROBLEM_PLACE_URL:false,		
 		PLACE_THEME: (typeof PLACE_THEME == 'undefined') ? 'frequency' : PLACE_THEME,
+		SUMMARY_TEMPLATE: (typeof SUMMARY_TEMPLATE == 'undefined') ? 'book-summary-text-template' : SUMMARY_TEMPLATE,
+		BOOK_TITLE_TEMPLATE: (typeof BOOK_TITLE_TEMPLATE == 'undefined') ? 'book-title-template' : BOOK_TITLE_TEMPLATE,
+		READING_VIEW_INTRO: (typeof READING_VIEW_INTRO == 'undefined') ? '' : READING_VIEW_INTRO,
+		PLACE_VIEW_INTRO: (typeof PLACE_VIEW_INTRO == 'undefined') ? '' : PLACE_VIEW_INTRO,		
 		viewOnLink : (typeof VIEW_ON_LINK === 'function') ? VIEW_ON_LINK : false,
          // google maps style settings
         mapStyle: mapStyle,

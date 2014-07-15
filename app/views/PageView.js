@@ -3,7 +3,7 @@
  */
 define(['gv', 'views/BookView', 'util/slide'], function(gv, BookView, slide) {
     var state = gv.state;
-    
+	
     // View: PageView (page content)
     return BookView.extend({
         className: 'single-page panel',

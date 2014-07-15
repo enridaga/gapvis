@@ -5,9 +5,13 @@
 </div>
 <div class="imagetoggle">
     Show:
+	<% if( showtext !== false ) { %>
 	<span class="showtext control">Text</span> |
+	<% } %>
     <% if(typeof texts !== 'undefined') _.each(texts, function(t){ %>
     <span class="showtext-<%=t.lang %> control"><%=t.label %></span> |
     <% }); %>
+	<% if( showimage !== false ) { %>
     <span class="showimg control">Scan</span>
+	<% } %>
 </div>

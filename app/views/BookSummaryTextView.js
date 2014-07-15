@@ -2,11 +2,12 @@
  * Book Summary Text View
  */
 define(['gv', 'views/BookView'], function(gv, BookView) {
-    var state = gv.state;
+    var state = gv.state,
+		settings = gv.settings;
     
     // View: BookSummaryTextView (text content for the book summary)
     return BookView.extend({
-        template: '#book-summary-text-template',
+        template: '#' +  settings.SUMMARY_TEMPLATE,
         
         // render and update functions
         

@@ -21,7 +21,10 @@ define(['gv', 'views/BookView'], function(gv, BookView) {
         render: function() {
             var view = this;
             // fill in template
-            view.renderTemplate();
+			var context = view.model.toJSON();
+			context.showtext = !!state.get('pagehastext');
+			context.showimage = !!state.get('pagehasimage');
+            view.renderTemplate(context);
             view.renderNextPrev();
             view.renderPageView();
         },
