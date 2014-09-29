@@ -3,13 +3,14 @@ API_ROOT = 'http://gap2.alexandriaarchive.org';
 REPORT_URL = 'http://gap2.alexandriaarchive.org/flags/';
 API_DATA_TYPE = 'json';
 DEBUG = false;
+disableChangeLink = true;
 // if present and not null, makes a direct link isntead of a form. Looks for {token-id}
 //REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
 SUMMARY_TEMPLATE = 'book-hestia-text-template';
 READING_VIEW_INTRO = '<p>Reading View, showing the text of Herodotus alongside a map of places mentioned in that section. Viewing may also be navigated by a narrative "timeline" bar underneath the map.</p>';
 PLACE_VIEW_INTRO = '<p>The Place View provides deeper information about a particular geographic location, including a network map of related places based on narrative proximity: i.e. the other places with which it is most frequently mentioned.</p>';
 BOOK_TITLE_TEMPLATE = 'hestia-title-template';
-REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
+//REPORT_BAD_TOKEN_URL = "http://gap2.alexandriaarchive.org/report/token-issues/{token-id}";
 VIEW_ON = "Search or download the full text via the Perseus Classical Library"
 VIEW_ON_LINK = function(uri, page){
 	// uri is the link to the book page on the origin repository
