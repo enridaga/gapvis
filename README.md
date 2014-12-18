@@ -14,7 +14,7 @@ Comments and questions welcomed at nick (at) nickrabinowitz (dot) com.
 
 ### Use it
 
-* Download a packaged dist from [http://enridaga.github.com/gapvis/](http://enridaga.github.com/gapvis/)
+* Download a packaged dist from [https://github.com/enridaga/gapvis/releases](https://github.com/enridaga/gapvis/releases)
 * Unpack the folder
 * Edit the config/settings.productions.js file to point to your data service
 * Deploy it on your Web Server
