@@ -1,0 +1,215 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GapVis: Visual Interface for Reading Ancient Texts</title>
+    <meta name="description" content="GapVis is a visual interface for reading ancient texts for the Google Ancient Places project.">
+    <meta name="author" content="Nick Rabinowitz / Google Ancient Places Project">
+	
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <link rel="stylesheet" href="./styles-gv-152342124240.css">
+    
+    <script type="text/javascript" src="config/settings.dev.js"></script><script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script type="text/javascript" src="lib/timeline-2.3.0.js"></script><script type="text/javascript" src="app/util/shim.js"></script><script type="text/javascript" src="lib/augment-0.3.1.min.js"></script><script type="text/javascript" src="lib/requirejs/require.js"></script><script type="text/javascript" src="lib/underscore/underscore.js"></script><script type="text/javascript" src="lib/bootstrap3/js/transition.js"></script><script type="text/javascript" src="lib/bootstrap3/js/button.js"></script><script type="text/javascript" src="lib/bootstrap3/js/modal.js"></script><script type="text/javascript" src="lib/bootstrap3/js/tooltip.js"></script><script type="text/javascript" src="lib/mxn/mxn.js"></script><script type="text/javascript" src="lib/mxn/mxn.core.js"></script><script type="text/javascript" src="lib/mxn/mxn.googlev3.core.js"></script><script type="text/javascript" src="lib/timemap/src/timemap.js"></script><script type="text/javascript" src="lib/timemap/src/param.js"></script><script type="text/javascript" src="lib/timemap/src/state.js"></script><script type="text/javascript" src="lib/timemap/src/loaders/progressive.js"></script><script type="text/javascript" src="lib/backbone/backbone.js"></script><script type="text/javascript" src="lib/backbone-spf/spf.js"></script><script type="text/javascript" src="lib/d3/d3.js"></script><script type="text/javascript" src="lib/timemap/src/ext/circle_icons.js"></script><script type="text/javascript" src="lib/label_utils.js"></script><script type="text/javascript" src="app/util/patches.js"></script><script type="text/javascript" src="app/app.js"></script>
+    
+    <!-- ANALYTICS -->
+</head>
+
+<body>
+
+    <div id="container">
+        <header>
+            <h1><a href="#">GapVis</a> <span class="beta">BETA</span></h1>
+            <nav>
+                <a href="index.html">Home</a> &middot; <a href="http://googleancientplaces.wordpress.com/about/">About Us</a> &middot; <a href="http://googleancientplaces.wordpress.com/">Blog</a>
+            </nav>
+        </header>
+        <div id="app-view" role="main" class="clearfix"></div>
+        <footer>
+            GapVis (c) 2011 <a href="http://www.nickrabinowitz.com">Nick Rabinowitz</a> / <a href="http://googleancientplaces.wordpress.com/">Google Ancient Places</a>. Hosting by <a href="http://alexandriaarchive.org/">AlexandriaArchive.org</a>. Funding by&nbsp;&nbsp;<img src="images/google_logo.png" alt="Google">.
+        </footer>
+    </div>
+    
+    <div id="message-view">
+        <div class="alert">
+            <button class="close">&times;</button>
+            <span></span>
+        </div>
+    </div>
+    
+    <div id="change-this-link">
+        <button class="btn" title="Report an Issue"><i class="glyphicon glyphicon-edit"></i></button>
+    </div>
+    
+    <div id="change-this-form" class="modal">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close cancel">&times;</button>
+            <h3>Report an Issue</h3>
+        </div>
+        <div class="modal-body">
+            <p>Is something wrong with this place reference? Let us know, so we can fix it!</p>
+            <p>
+                Reference: <span class="ref">"<span id="ctf-place-name"></span>" (<span id="ctf-book-title"></span><span class="pagenum">, 
+                p. <span id="ctf-page-id"></span></span>)</span>
+            </p>
+            <form>
+                <label for="ctf-problem">What's wrong here?</label>
+                <div>
+                    <textarea id="ctf-problem" name="note" rows="5"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn cancel">Cancel</button>
+            <button class="btn btn-primary submit">Submit</button>
+        </div>
+    </div>
+	</div>
+	</div>
+    <script type="text/template" id="bars-header-template"><h3>Top Places</h3>
+<div>
+    <span class="control ref">Most referenced</span> | 
+        <span class="control alpha">Alphabetical</span>
+</div></script><script type="text/template" id="book-hestia-text-template"><p>
+    The map below gives a big-picture perspective on the places referenced in the Histories. In total, some 691 ancient places are referenced by Herodotus. The graph on the right displays these places according to their rank (‘Most referenced’) or alphabetical order, and where they appear in the narrative.
+</p>
+<p><button class="btn btn-primary goto-reading">Go to Reading View <i class="glyphicon glyphicon-chevron-right glyphicon-white"></button></p></script><script type="text/template" id="book-list-item-template"><span class="book-title control on"><%= title %></span><br>
+<em><%= author %></em></script><script type="text/template" id="book-list-template"><div>
+    <h3>Select a book to view:</h3>
+    <div class="book-list"></div>
+</div></script><script type="text/template" id="book-summary-text-template"><p>
+    The Google Books version of "<%= title %>", by <%= author %>, was published in <%= printed %>. It <!-- is <%= pageCount %> pages long and --> references <%= places.length %> identified ancient places. 
+    
+    The place most frequently referenced is <span class="place" data-place-id="<%= topPlaces[0].id %>"><%= topPlaces[0].title %></span>, followed by <span class="place" data-place-id="<%= topPlaces[1].id %>"><%= topPlaces[1].title %></span>, <span class="place" data-place-id="<%= topPlaces[2].id %>"><%= topPlaces[2].title %></span>, and <span class="place" data-place-id="<%= topPlaces[3].id %>"><%= topPlaces[3].title %></span>.
+</p>
+<p><button class="btn btn-primary goto-reading">Go to Reading View <i class="glyphicon glyphicon-chevron-right glyphicon-white"></button></p></script><script type="text/template" id="book-title-template"><h2 class="book-title"><%= title %></h2>
+<p><em>By <%= author %></em></p>
+<p>
+    <!-- Published <%= printed %>, <%= pages.length %> pages &middot; --> 
+    <a href="<%= viewonlink %>" target="_blank"><%= viewon %></a>
+</p>
+<%= intro %></script><script type="text/template" id="flickr-photo-template"><div class="flickr-photo">
+    <a href="<%= link %>" title="<%= title %>" target="_blank"><img src="<%= src %>" alt="<%= title %>"></a>
+</div></script><script type="text/template" id="flickr-photos-template"><div>
+    <h4>Photos from Flickr</h4> <span class="flickr-link">&middot <a href="" target="_blank">View on Flickr &gt;&gt;</a></span>
+    <div class="photos"></div>
+</div></script><script type="text/template" id="hestia-title-template"><h2 class="book-title">The Histories of Herodotus</h2>
+<!--p><em>By <%= author %></em></p-->
+<p>
+    <!-- Published <%= printed %>, <%= pages.length %> pages &middot; --> 
+    <a href="<%= viewonlink %>" target="_blank"><%= viewon %></a>
+</p>
+<%= intro %></script><script type="text/template" id="index-overview-template"><h2>Overview</h2>
+<div class="thumbs">
+    <img src="images/thumb1.jpg" alt="Map view">
+    <img src="images/thumb2.jpg" alt="Sparkline view">
+</div>
+<p>
+    GapVis is an interface for exploring and reading texts that reference ancient places. It includes maps and data visualizations that show what locations are referred to a different points in the narrative and allows you to dig into the details to learn more.
+</p>
+<!--[if lt IE 9]>
+<p class="warning">
+    To use all features of this application, we strongly recommend using a modern browser, such as IE9, Chrome, or Firefox.
+</p>
+<![endif]-->
+<h3>Book Summary</h3>
+<p>
+    The Summary view gives you a big-picture perspective on what places are referenced in the book and where they appear in the narrative structure.
+</p>
+<h3>Reading View</h3>
+<p>
+    The Reading view offers an interface for reading the text, including a narrative timeline and a map of recently-referenced places.
+</p>
+<h3>Place Detail</h3>
+<p>
+    The Place Detail view provides deeper information about a particular geographic location, including a network map of related places based on narrative co-reference.
+</p></script><script type="text/template" id="info-window-template"><h3><%= title %> <span class="zoom control on">(Zoom In)</span></h3>
+<p><span class="control on goto-place">View Details &gt;&gt;</span><p>
+<div class="frequency-bars"></div>
+<p>
+    <span class="frequency"><%= frequency %></span> reference<%= frequency == 1 ? "" : "s" %><span class="controls">:
+    
+        <span class="control prev">&lt;&lt; prev</span> | 
+        <span class="control next">next &gt;&gt;</span>
+    </span>
+</p></script><script type="text/template" id="navigation-view-template"><nav class="btn-group" data-toggle="buttons-radio">
+  <button class="btn btn-small btn-primary" title="Summary View" data-view-id="book-summary"><i class="glyphicon glyphicon-star glyphicon-white"></i> Summary View</button>
+  <button class="btn btn-small btn-primary" title="Reading View" data-view-id="reading-view"><i class="glyphicon glyphicon-book glyphicon-white"></i> Reading View</button>
+  <button class="btn btn-small btn-primary" title="Place Detail" data-view-id="place-view"><i class="glyphicon glyphicon-globe glyphicon-white"></i> Place Detail</button>
+</nav>
+<a class="permalink btn btn-primary" title="Permalink" href="#"><i class="glyphicon glyphicon-bookmark glyphicon-white"></i></a></script><script type="text/template" id="page-control-template"><div class="nextprev">
+    <span class="prev control">&lt;&lt; previous</span>
+    <input class="page-id" maxlength="8">
+    <span class="next control">next &gt;&gt;</span>
+</div>
+<div class="imagetoggle">
+    Show:
+	<% if( showtext !== false ) { %>
+	<span class="showtext control">Text</span> |
+	<% } %>
+    <% if(typeof texts !== 'undefined') _.each(texts, function(t){ %>
+    <span class="showtext-<%=t.lang %> control"><%=t.label %></span> |
+    <% }); %>
+	<% if( showimage !== false ) { %>
+    <span class="showimg control">Scan</span>
+	<% } %>
+</div></script><script type="text/template" id="page-template"><% _.each(texts, function(t){ %><div class="text<% if(t.lang){ %>-<%=t.lang%><%}%>" lang="<%= t.lang %>"><%= t.text %></div> <% }); %>
+<div class="img"><% if (image) { %><img src="<%= image %>"><% } else { %>(No image available)<% } %></div></script><script type="text/template" id="place-summary-template"><h3><%= title %></h3>
+<div class="frequency-bars"></div>
+<p><!-- http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F -->
+    <span class="frequency"><%= frequency %></span> reference<%= frequency == 1 ? "" : "s" %> | <span class="change-this control on">Report a problem with this record</span> <span class="change-this-divider">|</span> <a href="<%= uri %>" target="_blank">Find out more in the Pleiades Gazetteer</a> | <a href="http://pelagios.dme.ait.ac.at/api/places/<%= encodeURIComponent(uri) %>" target="_blank">Find related documents via Pelagios</a>
+</p>
+<div></div>
+<!-- <ul>
+    <li><a href="<%= uri %>" target="_blank">Place page on Pleiades</a></li>
+    <li><a href="http://pelagios.dme.ait.ac.at/api/places/http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F<%= id %>" target="_blank">References in Pelagios</a>
+    </li>
+</ul> -->
+<div class="place-references"></div></script><script type="text/template" id="timemap-legend-template"><span class="timemap-legend-by-frequency">Least referenced <span class="images"></span> Most referenced</span>
+<span class="timemap-legend-by-feature"><span class="place-types"></span></span></script><script type="text/template" id="timemap-template"><div class="map-container">
+    <div class="map"></div>
+</div>
+<div class="timeline-container">
+    <div class="timeline"></div>
+    <div class="timeline-controls">
+        <div class="timeline-play ir on">Play</div>
+        <div class="timeline-stop ir">Stop</div>
+    </div>
+</div></script><script type="text/template" id="layout-2col"><div class="layout">
+    <div class="row full-height">
+        <div class="left-column span5 full-height"></div>
+        <div class="right-column span7 full-height" ></div>
+    </div>
+</div></script><script type="text/template" id="layout-book-2panel"><div class="layout">
+    <div>
+        <div class="navigation-view"></div>
+        <div class="book-title-view"></div>
+    </div>
+    <div class="bottom-slot row-fluid fill">
+        <div class="left-panel span5 full-height"></div>
+        <div class="right-panel span7 full-height"></div>
+    </div>
+</div></script><script type="text/template" id="layout-book-3panel"><div class="layout">
+    <div>
+        <div class="navigation-view"></div>
+        <div class="book-title-view"></div>
+    </div>
+    <div class="bottom-slot fill">
+        <div class="row-fluid full-height">
+            <div class="left-column span7 full-height">
+                <div class="text-slot"></div>
+                <div class="left-panel fill"></div>
+            </div>
+            <div class="right-column right-panel span5 full-height"></div>
+        </div>
+    </div>
+</div></script><script type="text/template" id="layout-full-bottom"><div class="top-slot"></div>
+<div class="bottom-slot fill"></div></script><script type="text/template" id="layout-full-top"><div class="top-slot fill"></div>
+<div class="bottom-slot"></div></script>
+
+</body>
+</html>
