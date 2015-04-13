@@ -76,7 +76,7 @@ define(['gv', 'models/Model', 'models/Places', 'models/Pages'],
                 items = [],
                 pages = book.pages,
                 startIndex = startId ? pages.indexOf(pages.get(startId)) : 0,
-                endIndex = endId ? pages.indexOf(pages.get(endId)) : pages.length - 1;
+                endIndex = endId ? pages.indexOf(pages.get(endId)) : pages.length;
             pages.models.slice(startIndex, endIndex)
                 .forEach(function(page) {
                     var places = _.uniq(page.get('places'));
