@@ -1,7 +1,5 @@
 # GapVis
 
-**DISCLAIMER: This fork is ongoing work. Last official code is at https://github.com/googleancientplaces/gapvis**
-
 ### About
 
 GapVis is part of the [Google Ancient Places project](http://googleancientplaces.wordpress.com/). You can read more about some of the technical considerations and the design process here:
