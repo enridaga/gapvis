@@ -1,7 +1,7 @@
 <h3><%= title %></h3>
 <div class="frequency-bars"></div>
 <p><!-- http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F -->
-    <span class="frequency"><%= frequency %></span> reference<%= frequency == 1 ? "" : "s" %> | <span class="change-this control on">Report a problem with this record</span> <span class="change-this-divider">|</span> <a href="<%= uri %>" target="_blank">Find out more in the Pleiades Gazetteer</a> | <a href="http://pelagios.dme.ait.ac.at/api/places/<%= encodeURIComponent(uri) %>" target="_blank">Find related documents via Pelagios</a>
+    <span class="frequency"><%= frequency %></span> reference<%= frequency == 1 ? "" : "s" %> | <span class="change-this control on">Report a problem with this record</span> <span class="change-this-divider">|</span> <a href="<%= uri %>" target="_blank">Find out more in the Pleiades Gazetteer</a> | <a href="http://pelagios.org/peripleo/map#places=<%= encodeURIComponent(uri) %>" target="_blank">Find related documents via Pelagios</a>
 </p>
 <div></div>
 <!-- <ul>
